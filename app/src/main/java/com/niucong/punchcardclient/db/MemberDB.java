@@ -8,7 +8,7 @@ import org.litepal.crud.DataSupport;
 public class MemberDB extends DataSupport {
 
     private int id;// 唯一主键
-    private int clientId;// 客户端生成的Id
+    private int serverId;// 服务端生成的Id
     private int number;// 工号或者学号（工号4位、学号7位）
     private String password;// 账号密码
     private String name;// 实验室人员名称
@@ -28,12 +28,12 @@ public class MemberDB extends DataSupport {
         this.id = id;
     }
 
-    public int getClientId() {
-        return clientId;
+    public int getServerId() {
+        return serverId;
     }
 
-    public void setClientId(int clientId) {
-        this.clientId = clientId;
+    public void setServerId(int serverId) {
+        this.serverId = serverId;
     }
 
     public int getNumber() {
