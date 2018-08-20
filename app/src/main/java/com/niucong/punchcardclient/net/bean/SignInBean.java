@@ -1,24 +1,11 @@
-package com.niucong.punchcardclient.db;
+package com.niucong.punchcardclient.net.bean;
 
-import org.litepal.crud.DataSupport;
+public class SignInBean extends BasicBean {
 
-/**
- * 打卡记录
- */
-public class SignRecordDB extends DataSupport {
-
-    private long id;// 唯一主键
-    private long serverId;// 服务端生成的Id
+    private long serverId;
     private long startTime;
     private long endTime;
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public long getServerId() {
         return serverId;

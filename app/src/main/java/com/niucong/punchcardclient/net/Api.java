@@ -1,6 +1,7 @@
 package com.niucong.punchcardclient.net;
 
 import com.niucong.punchcardclient.net.bean.LoginBean;
+import com.niucong.punchcardclient.net.bean.SignInBean;
 
 import java.util.Map;
 
@@ -14,5 +15,8 @@ public interface Api {
     @FormUrlEncoded
     @POST("login")
     Observable<LoginBean> login(@FieldMap Map<String, String> fields);
+
+    @POST("signIn")
+    Observable<SignInBean> signIn();
 
 }

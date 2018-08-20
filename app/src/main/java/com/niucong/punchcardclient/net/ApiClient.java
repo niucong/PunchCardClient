@@ -128,6 +128,7 @@ public class ApiClient {
             Headers headersOrigin = requestOrigin.headers();
             Headers.Builder builder = headersOrigin.newBuilder();
             builder.set("userId", "" + App.sp.getInt("userId", 0));
+            Log.d("ApiClient", "userId=" + App.sp.getInt("userId", 0));
             if (params != null) {
                 for (Map.Entry<String, String> entry : params.entrySet()) {
                     builder.set(entry.getKey(), entry.getValue());

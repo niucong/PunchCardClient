@@ -33,6 +33,11 @@ dependencies {
 
     implementation 'org.litepal.android:core:1.6.1'
 
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
     // Okhttp库
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     // Retrofit库

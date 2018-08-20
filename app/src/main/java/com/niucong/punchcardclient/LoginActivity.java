@@ -70,6 +70,12 @@ public class LoginActivity extends BasicActivity {
 
         etIp = (EditText) findViewById(R.id.ip);
         etPort = (EditText) findViewById(R.id.port);
+
+        Log.d("LoginActivity", "userId=" + App.sp.getInt("userId", 0));
+        if (App.sp.getInt("userId", 0) > 0) {
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
+        }
     }
 
 
@@ -126,9 +132,12 @@ public class LoginActivity extends BasicActivity {
                 if (model != null) {
                     App.showToast("" + model.getMsg());
                     if (model.getCode() == 1) {
+                        Log.d("LoginActivity", "userId=" + model.getMemberId());
                         App.sp.putInt("userId", model.getMemberId());
+                        App.sp.putInt("type", model.getType());
                         App.sp.commit();
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        finish();
                     }
                 } else {
                     App.showToast("接口错误" + (model == null));
@@ -137,7 +146,7 @@ public class LoginActivity extends BasicActivity {
 
             @Override
             public void onFailure(String msg) {
-                Log.d("JuLongPOS", "失败了,如下 : " + msg);
+                Log.d("LoginActivity", "失败了,如下 : " + msg);
             }
 
             @Override
