@@ -85,7 +85,7 @@
                 android:layout_height="100dp"
                 android:layout_marginLeft="10dp"
                 android:onClick="@{handlers::onClickName}"
-                android:text="创建账号"
+                android:text="人员管理"
                 android:textSize="18dp"
                 android:textStyle="bold"/>
         </LinearLayout>

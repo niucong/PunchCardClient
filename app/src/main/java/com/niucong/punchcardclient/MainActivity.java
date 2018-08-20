@@ -24,7 +24,7 @@ public class MainActivity extends BasicActivity {
         binding.setHandlers(new MainClickHandlers());
 
         if (App.sp.getInt("type", 0) == 3) {
-            binding.mainMember.setVisibility(View.INVISIBLE);
+//            binding.mainMember.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -63,6 +63,9 @@ public class MainActivity extends BasicActivity {
                     break;
                 case R.id.main_sync:
 
+                    break;
+                case R.id.main_member:
+                    startActivity(new Intent(MainActivity.this, MemberListActivity.class));
                     break;
                 case R.id.main_attendance:
                     startActivity(new Intent(MainActivity.this, SignRecordListActivity.class));
