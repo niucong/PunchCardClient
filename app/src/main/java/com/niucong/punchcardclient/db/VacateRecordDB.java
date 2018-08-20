@@ -7,8 +7,8 @@ import org.litepal.crud.DataSupport;
  */
 public class VacateRecordDB extends DataSupport {
 
-    private int id;// 唯一主键
-    private int serverId;// 服务端生成的Id
+    private long id;// 唯一主键
+    private long serverId;// 服务端生成的Id
     private int ownerId;// 请假者Id
     private int type;// 请假类型：1事假、2病假、3年假、4调休、5其他（3、4、5只有老师有）
     private String cause;// 请假原因
@@ -21,19 +21,19 @@ public class VacateRecordDB extends DataSupport {
     private long lastPushTime;// 最后一次推送时间
     private int number;// 推送次数
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public int getServerId() {
+    public long getServerId() {
         return serverId;
     }
 
-    public void setServerId(int serverId) {
+    public void setServerId(long serverId) {
         this.serverId = serverId;
     }
 

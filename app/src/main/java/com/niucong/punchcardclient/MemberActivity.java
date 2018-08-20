@@ -3,7 +3,6 @@ package com.niucong.punchcardclient;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +19,7 @@ import org.litepal.crud.DataSupport;
 
 import java.util.List;
 
-public class MemberActivity extends AppCompatActivity {
+public class MemberActivity extends BasicActivity {
 
     ActivityMemberBinding binding;
     private MemberDB db;

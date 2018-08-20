@@ -70,6 +70,9 @@ public class MainActivity extends BasicActivity {
                 case R.id.main_attendance:
                     startActivity(new Intent(MainActivity.this, SignRecordListActivity.class));
                     break;
+                case R.id.main_vacate:
+                    startActivity(new Intent(MainActivity.this, VacateActivity.class));
+                    break;
             }
         }
     }

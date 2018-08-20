@@ -2,6 +2,7 @@ package com.niucong.punchcardclient.net;
 
 import com.niucong.punchcardclient.net.bean.LoginBean;
 import com.niucong.punchcardclient.net.bean.SignInBean;
+import com.niucong.punchcardclient.net.bean.VacateBean;
 
 import java.util.Map;
 
@@ -18,5 +19,9 @@ public interface Api {
 
     @POST("signIn")
     Observable<SignInBean> signIn();
+
+    @FormUrlEncoded
+    @POST("vacate")
+    Observable<VacateBean> vacate(@FieldMap Map<String, String> fields);
 
 }

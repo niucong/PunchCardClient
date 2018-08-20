@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="handlers"
+            type="com.niucong.punchcardclient.VacateActivity.VacateClickHandlers"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="请假类型："/>
+
+            <TextView
+                android:id="@+id/vatace_type_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+        <RadioGroup
+            android:id="@+id/vatace_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/vatace_leave1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="事假"/>
+
+            <RadioButton
+                android:id="@+id/vatace_leave2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="病假"/>
+
+            <RadioButton
+                android:id="@+id/vatace_leave3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="年假"/>
+
+            <RadioButton
+                android:id="@+id/vatace_leave4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="调休"/>
+
+            <RadioButton
+                android:id="@+id/vatace_leave5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="其它"/>
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="请假原因："/>
+
+            <EditText
+                android:id="@+id/vatace_cause"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:maxLength="50"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="开始时间："/>
+
+            <TextView
+                android:id="@+id/vatace_start"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="请选择开始时间"
+                android:onClick="@{handlers::onClickName}"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="结束时间："/>
+
+            <TextView
+                android:id="@+id/vatace_end"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="请选择结束时间"
+                android:onClick="@{handlers::onClickName}"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/vatace_status_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="假条状态："/>
+
+            <TextView
+                android:id="@+id/vatace_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="待批复"/>
+
+            <RadioGroup
+                android:id="@+id/vatace_status_rg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/vatace_status1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="同意"/>
+
+                <RadioButton
+                    android:id="@+id/vatace_status2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="不同意"/>
+            </RadioGroup>
+
+            <EditText
+                android:id="@+id/vatace_status_cause"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="原因"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:maxLength="50"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/vatace_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{handlers::onClickName}"
+            android:text="提交"/>
+    </LinearLayout>
+</layout>

@@ -4,6 +4,8 @@ public class BasicBean {
 
     private int code;
 
+    private String msg;
+
     public int getCode() {
         return code;
     }
@@ -19,6 +21,4 @@ public class BasicBean {
     public void setMsg(String msg) {
         this.msg = msg;
     }
-
-    private String msg;
 }

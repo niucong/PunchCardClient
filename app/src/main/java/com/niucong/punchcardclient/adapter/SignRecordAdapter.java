@@ -11,7 +11,7 @@ import java.util.List;
 
 public class SignRecordAdapter extends BaseQuickAdapter<SignRecordDB, BaseViewHolder> {
 
-    SimpleDateFormat YMDHMS = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    SimpleDateFormat YMDHM = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     /**
      * @param layoutResId
@@ -25,7 +25,7 @@ public class SignRecordAdapter extends BaseQuickAdapter<SignRecordDB, BaseViewHo
     protected void convert(BaseViewHolder helper, final SignRecordDB db) {
         final int position = helper.getLayoutPosition();
         helper.setText(R.id.item_signrecord_num, (position + 1) + "");
-        helper.setText(R.id.item_signrecord_starttime, YMDHMS.format(new Date(db.getStartTime())));
-        helper.setText(R.id.item_signrecord_endtime, db.getEndTime() > 0 ? YMDHMS.format(new Date(db.getEndTime())) : "-");
+        helper.setText(R.id.item_signrecord_starttime, YMDHM.format(new Date(db.getStartTime())));
+        helper.setText(R.id.item_signrecord_endtime, db.getEndTime() > 0 ? YMDHM.format(new Date(db.getEndTime())) : "-");
     }
 }
