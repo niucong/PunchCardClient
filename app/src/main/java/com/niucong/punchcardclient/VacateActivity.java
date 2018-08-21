@@ -105,6 +105,7 @@ public class VacateActivity extends BasicActivity {
 //                            recordDB.setEndTime(endDate);
 //                            recordDB.setCreateTime(model.getCreateTime());
 //                            recordDB.save();
+                            finish();
                         }
                     } else {
                         App.showToast("接口错误" + (model == null));
