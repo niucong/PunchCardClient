@@ -1,23 +1,20 @@
-package com.niucong.punchcardclient.db;
+package com.niucong.punchcardclient.net.db;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.litepal.crud.DataSupport;
-
 /**
  * 实验室人员
  */
-public class MemberDB extends DataSupport implements Parcelable {
+public class MemberDB implements Parcelable {
 
     private int id;// 唯一主键
-    private int serverId;// 服务端生成的Id
     private String number;// 工号或者学号（工号4位、学号7位）
     private String password;// 账号密码
     private String name;// 实验室人员名称
     private String phone;// 手机号
     private int type;// 身份类型：1主任、2老师、3学生
-    private int memberId;// 上级id
+    private int superId;// 上级id
     private String MAC;// 蓝牙MAC地址
     private String faceId;// 人脸标识
     private long lastEditTime;// 最后一次编辑时间
@@ -29,14 +26,6 @@ public class MemberDB extends DataSupport implements Parcelable {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getServerId() {
-        return serverId;
-    }
-
-    public void setServerId(int serverId) {
-        this.serverId = serverId;
     }
 
     public String getNumber() {
@@ -79,12 +68,12 @@ public class MemberDB extends DataSupport implements Parcelable {
         this.type = type;
     }
 
-    public int getMemberId() {
-        return memberId;
+    public int getSuperId() {
+        return superId;
     }
 
-    public void setMemberId(int memberId) {
-        this.memberId = memberId;
+    public void setSuperId(int superId) {
+        this.superId = superId;
     }
 
     public String getMAC() {
@@ -127,13 +116,12 @@ public class MemberDB extends DataSupport implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.id);
-        dest.writeInt(this.serverId);
         dest.writeString(this.number);
         dest.writeString(this.password);
         dest.writeString(this.name);
         dest.writeString(this.phone);
         dest.writeInt(this.type);
-        dest.writeInt(this.memberId);
+        dest.writeInt(this.superId);
         dest.writeString(this.MAC);
         dest.writeString(this.faceId);
         dest.writeLong(this.lastEditTime);
@@ -145,13 +133,12 @@ public class MemberDB extends DataSupport implements Parcelable {
 
     protected MemberDB(Parcel in) {
         this.id = in.readInt();
-        this.serverId = in.readInt();
         this.number = in.readString();
         this.password = in.readString();
         this.name = in.readString();
         this.phone = in.readString();
         this.type = in.readInt();
-        this.memberId = in.readInt();
+        this.superId = in.readInt();
         this.MAC = in.readString();
         this.faceId = in.readString();
         this.lastEditTime = in.readLong();

@@ -4,31 +4,31 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.niucong.punchcardclient.adapter.SignRecordAdapter;
-import com.niucong.punchcardclient.db.MemberDB;
-import com.niucong.punchcardclient.db.SignRecordDB;
-
-import org.litepal.crud.DataSupport;
+import com.niucong.punchcardclient.app.App;
+import com.niucong.punchcardclient.net.ApiCallback;
+import com.niucong.punchcardclient.net.bean.SignInListBean;
+import com.niucong.punchcardclient.net.db.SignRecordDB;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SignRecordListActivity extends AppCompatActivity implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
+public class SignRecordListActivity extends BasicActivity implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.signrecord_search)
     EditText signrecordSearch;
@@ -89,32 +89,54 @@ public class SignRecordListActivity extends AppCompatActivity implements BaseQui
     }
 
     private void queryMembers() {
-        if (TextUtils.isEmpty(searchKey)) {
-            if (offset == 0) {
-                list.clear();
-                allSize = DataSupport.count(SignRecordDB.class);
-            }
-            list.addAll(DataSupport.offset(offset).limit(pageSize).find(SignRecordDB.class));
-        } else {
-            if (offset == 0) {
-                list.clear();
-                allSize = DataSupport.where("number = ? or name = ? or phone = ?", searchKey, searchKey, searchKey).count(MemberDB.class);
-            }
-            list.addAll(DataSupport.where("number = ? or name = ? or phone = ?", searchKey, searchKey, searchKey)
-                    .offset(offset).limit(pageSize).find(SignRecordDB.class));
+
+        Map<String, String> fields = new HashMap<>();
+        fields.put("offset", "" + offset);
+        fields.put("pageSize", "" + pageSize);
+        if (!TextUtils.isEmpty(searchKey)) {
+            fields.put("searchKey", searchKey);
         }
-        Log.d("MemberListActivity", "queryMembers " + list.size() + "/" + allSize);
-//        setAdapter();
-        adapter.notifyDataSetChanged();
-        if (allSize == list.size()) {
-            adapter.loadMoreEnd();
-        } else {
-            adapter.loadMoreComplete();
-        }
-        //取消下拉刷新动画
-        signrecordSrl.setRefreshing(false);
-        //禁止下拉刷新
-        signrecordSrl.setEnabled(true);
+        addSubscription(getApi().signInList(fields), new ApiCallback<SignInListBean>() {
+            @Override
+            public void onSuccess(SignInListBean model) {
+                if (model != null) {
+                    App.showToast("" + model.getMsg());
+                    if (model.getCode() == 1) {
+                        if (offset == 0) {
+                            list.clear();
+                            allSize = model.getAllSize();
+                        }
+                        list.addAll(model.getList());
+                        adapter.notifyDataSetChanged();
+                        if (allSize == list.size()) {
+                            adapter.loadMoreEnd();
+                        } else {
+                            adapter.loadMoreComplete();
+                        }
+                        //取消下拉刷新动画
+                        signrecordSrl.setRefreshing(false);
+                        //禁止下拉刷新
+                        signrecordSrl.setEnabled(true);
+                    }
+                } else {
+                    App.showToast("接口错误" + (model == null));
+                }
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                App.showToast("请求失败");
+                //取消下拉刷新动画
+                signrecordSrl.setRefreshing(false);
+                //禁止下拉刷新
+                signrecordSrl.setEnabled(true);
+            }
+        });
     }
 
     @Override

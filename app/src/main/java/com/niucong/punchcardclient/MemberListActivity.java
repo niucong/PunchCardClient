@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
@@ -19,9 +18,7 @@ import android.widget.EditText;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.niucong.punchcardclient.adapter.MemberAdapter;
 import com.niucong.punchcardclient.app.App;
-import com.niucong.punchcardclient.db.MemberDB;
-
-import org.litepal.crud.DataSupport;
+import com.niucong.punchcardclient.net.db.MemberDB;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,21 +91,21 @@ public class MemberListActivity extends AppCompatActivity implements BaseQuickAd
     }
 
     private void queryMembers() {
-        if (TextUtils.isEmpty(searchKey)) {
-            if (offset == 0) {
-                list.clear();
-                allSize = DataSupport.where("memberId = ?", userId).count(MemberDB.class);
-            }
-            list.addAll(DataSupport.where("memberId = ?", userId).offset(offset).limit(pageSize).find(MemberDB.class));
-        } else {
-            if (offset == 0) {
-                list.clear();
-                allSize = DataSupport.where("memberId = ? and number = ? or name = ? or phone = ?",
-                        userId, searchKey, searchKey, searchKey).count(MemberDB.class);
-            }
-            list.addAll(DataSupport.where("memberId = ? and number = ? or name = ? or phone = ?",
-                    userId, searchKey, searchKey, searchKey).offset(offset).limit(pageSize).find(MemberDB.class));
-        }
+//        if (TextUtils.isEmpty(searchKey)) {
+//            if (offset == 0) {
+//                list.clear();
+//                allSize = DataSupport.where("memberId = ?", userId).count(MemberDB.class);
+//            }
+//            list.addAll(DataSupport.where("memberId = ?", userId).offset(offset).limit(pageSize).find(MemberDB.class));
+//        } else {
+//            if (offset == 0) {
+//                list.clear();
+//                allSize = DataSupport.where("memberId = ? and number = ? or name = ? or phone = ?",
+//                        userId, searchKey, searchKey, searchKey).count(MemberDB.class);
+//            }
+//            list.addAll(DataSupport.where("memberId = ? and number = ? or name = ? or phone = ?",
+//                    userId, searchKey, searchKey, searchKey).offset(offset).limit(pageSize).find(MemberDB.class));
+//        }
         Log.d("MemberListActivity", "queryMembers " + list.size() + "/" + allSize);
 //        setAdapter();
         adapter.notifyDataSetChanged();

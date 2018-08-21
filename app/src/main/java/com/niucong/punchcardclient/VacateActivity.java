@@ -96,15 +96,6 @@ public class VacateActivity extends BasicActivity {
                     if (model != null) {
                         App.showToast("" + model.getMsg());
                         if (model.getCode() == 1) {
-//                            VacateRecordDB recordDB = new VacateRecordDB();
-//                            recordDB.setServerId(model.getServerId());
-//                            recordDB.setOwnerId(App.sp.getInt("userId", 0));
-//                            recordDB.setType(type);
-//                            recordDB.setCause(cause);
-//                            recordDB.setStartTime(startDate);
-//                            recordDB.setEndTime(endDate);
-//                            recordDB.setCreateTime(model.getCreateTime());
-//                            recordDB.save();
                             finish();
                         }
                     } else {

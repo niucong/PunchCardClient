@@ -1,14 +1,12 @@
-package com.niucong.punchcardclient.db;
-
-import org.litepal.crud.DataSupport;
+package com.niucong.punchcardclient.net.db;
 
 /**
  * 课程计划
  */
-public class CoursePlanDB extends DataSupport {
+public class CoursePlanDB {
 
     private int id;// 唯一主键
-    private int clientId;// 客户端生成的Id
+    private int serverId;// 服务端生成的Id
     private String name;// 计划名称
     private int ownerId;// 计划归属者Id
     private int createrId;// 计划创建者Id
@@ -28,12 +26,12 @@ public class CoursePlanDB extends DataSupport {
         this.id = id;
     }
 
-    public int getClientId() {
-        return clientId;
+    public int getServerId() {
+        return serverId;
     }
 
-    public void setClientId(int clientId) {
-        this.clientId = clientId;
+    public void setServerId(int serverId) {
+        this.serverId = serverId;
     }
 
     public String getName() {

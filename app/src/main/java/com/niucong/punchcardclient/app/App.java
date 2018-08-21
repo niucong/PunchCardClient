@@ -5,8 +5,6 @@ import android.widget.Toast;
 
 import com.niucong.punchcardclient.util.SharedPrefUtil;
 
-import org.litepal.LitePal;
-
 public class App extends Application {
 
     public static App app;
@@ -17,8 +15,6 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         app = this;
-        LitePal.initialize(this);
-
         sp = new SharedPrefUtil(app, "PunchCard");
     }
 

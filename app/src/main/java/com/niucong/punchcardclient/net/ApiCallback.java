@@ -1,8 +1,6 @@
 package com.niucong.punchcardclient.net;
 
 
-import org.litepal.util.LogUtil;
-
 import java.net.SocketTimeoutException;
 
 import retrofit2.adapter.rxjava.HttpException;
@@ -28,7 +26,6 @@ abstract public class ApiCallback<M> extends Subscriber<M> {
             //httpException.response().errorBody().string()
             int code = httpException.code();
             String msg = httpException.getMessage();
-            LogUtil.d("ApiCallback", "code=" + code);
             if (code == 504) {
                 msg = "网络不给力";
             }

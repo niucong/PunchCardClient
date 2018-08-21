@@ -15,8 +15,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
-        android:hint="名称/工号/学号/手机号"
-        android:visibility="gone"/>
+        android:hint="名称" />
 
     <include layout="@layout/item_signrecord"/>
 

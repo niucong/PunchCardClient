@@ -1,22 +1,23 @@
-package com.niucong.punchcardclient.db;
-
-import org.litepal.crud.DataSupport;
+package com.niucong.punchcardclient.net.db;
 
 /**
  * 请假记录
  */
-public class VacateRecordDB extends DataSupport {
+public class VacateRecordDB {
 
     private long id;// 唯一主键
-    private long serverId;// 服务端生成的Id
-    private int ownerId;// 请假者Id
+    private int memberId;// 请假者Id
+    private String name;// 请假者名称
+    private int superId;// 上级id
     private int type;// 请假类型：1事假、2病假、3年假、4调休、5其他（3、4、5只有老师有）
     private String cause;// 请假原因
     private long createTime;// 请假时间
     private long startTime;// 请假开始时间
     private long endTime;// 请假结束时间
+    private long editTime;// 批复时间
+    private int approveResult;// 审批结果：0待批复、1同意、2不同意
+
     private boolean isUpPush;// 是否推送给上级
-    private int approveResult;// 审批结果：1同意、2不同意
     private boolean isDownPush;// 是否推送反馈给下级
     private long lastPushTime;// 最后一次推送时间
     private int number;// 推送次数
@@ -29,20 +30,28 @@ public class VacateRecordDB extends DataSupport {
         this.id = id;
     }
 
-    public long getServerId() {
-        return serverId;
+    public int getMemberId() {
+        return memberId;
     }
 
-    public void setServerId(long serverId) {
-        this.serverId = serverId;
+    public void setMemberId(int memberId) {
+        this.memberId = memberId;
     }
 
-    public int getOwnerId() {
-        return ownerId;
+    public String getName() {
+        return name;
     }
 
-    public void setOwnerId(int ownerId) {
-        this.ownerId = ownerId;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getSuperId() {
+        return superId;
+    }
+
+    public void setSuperId(int superId) {
+        this.superId = superId;
     }
 
     public int getType() {
@@ -83,6 +92,14 @@ public class VacateRecordDB extends DataSupport {
 
     public void setEndTime(long endTime) {
         this.endTime = endTime;
+    }
+
+    public long getEditTime() {
+        return editTime;
+    }
+
+    public void setEditTime(long editTime) {
+        this.editTime = editTime;
     }
 
     public boolean isUpPush() {

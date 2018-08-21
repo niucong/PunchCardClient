@@ -8,7 +8,6 @@ import android.view.View;
 
 import com.niucong.punchcardclient.app.App;
 import com.niucong.punchcardclient.databinding.ActivityMainBinding;
-import com.niucong.punchcardclient.db.SignRecordDB;
 import com.niucong.punchcardclient.net.ApiCallback;
 import com.niucong.punchcardclient.net.bean.SignInBean;
 
@@ -39,11 +38,7 @@ public class MainActivity extends BasicActivity {
                             if (model != null) {
                                 App.showToast("" + model.getMsg());
                                 if (model.getCode() == 1) {
-                                    SignRecordDB recordDB = new SignRecordDB();
-                                    recordDB.setServerId(model.getServerId());
-                                    recordDB.setStartTime(model.getStartTime());
-                                    recordDB.setEndTime(model.getEndTime());
-                                    recordDB.save();
+
                                 }
                             } else {
                                 App.showToast("接口错误" + (model == null));

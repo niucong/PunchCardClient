@@ -13,9 +13,7 @@ import android.widget.Spinner;
 
 import com.niucong.punchcardclient.app.App;
 import com.niucong.punchcardclient.databinding.ActivityMemberBinding;
-import com.niucong.punchcardclient.db.MemberDB;
-
-import org.litepal.crud.DataSupport;
+import com.niucong.punchcardclient.net.db.MemberDB;
 
 import java.util.List;
 
@@ -48,7 +46,7 @@ public class MemberActivity extends BasicActivity {
                         break;
                     case R.id.member_student:
                         if (dbs == null) {
-                            dbs = DataSupport.where("type = ? and isDelete = ?", "2", "0").find(MemberDB.class);
+//                            dbs = DataSupport.where("type = ? and isDelete = ?", "2", "0").find(MemberDB.class);
                         }
                         int size = dbs.size();
                         if (size == 0) {
@@ -102,14 +100,14 @@ public class MemberActivity extends BasicActivity {
             binding.memberSpinner.setVisibility(View.VISIBLE);
             binding.memberNumberTip.setText("学号：");
 
-            dbs = DataSupport.where("type = ?", "2").find(MemberDB.class);
+//            dbs = DataSupport.where("type = ?", "2").find(MemberDB.class);
             int size = dbs.size();
             String[] strs = new String[size + 1];
             strs[0] = "请选择老师";
             int select = 0;
             for (int i = 0; i < size; i++) {
                 strs[i + 1] = dbs.get(i).getName();
-                if (db.getMemberId() == dbs.get(i).getId()) {
+                if (db.getSuperId() == dbs.get(i).getId()) {
                     select = i + 1;
                 }
             }
@@ -161,9 +159,9 @@ public class MemberActivity extends BasicActivity {
         if (TextUtils.isEmpty(phone.trim()) || phone.length() < 11 || !phone.startsWith("1")) {
             App.showToast("手机号码错误");
             return;
-        } else if (db == null && DataSupport.where("phone = ?", phone).count(MemberDB.class) > 0) {
-            App.showToast("手机号码已被使用");
-            return;
+//        } else if (db == null && DataSupport.where("phone = ?", phone).count(MemberDB.class) > 0) {
+//            App.showToast("手机号码已被使用");
+//            return;
         }
         String password = binding.memberPassword.getText().toString();
         if (TextUtils.isEmpty(password.trim())) {
@@ -176,9 +174,9 @@ public class MemberActivity extends BasicActivity {
         }
         db.setType(type);
         if (type == 3) {
-            db.setMemberId(selectDB.getId());
+            db.setSuperId(selectDB.getId());
         } else if (type == 2) {
-            db.setMemberId(DataSupport.where("type = ?", "1").findFirst(MemberDB.class).getId());
+//            db.setSuperId(DataSupport.where("type = ?", "1").findFirst(MemberDB.class).getId());
         }
         db.setName(name);
         db.setNumber(number);
@@ -187,13 +185,13 @@ public class MemberActivity extends BasicActivity {
         db.setMAC("");
         db.setIsDelete(binding.memberStatus.isChecked() ? 0 : 1);
         db.setLastEditTime(System.currentTimeMillis());
-        if (isEdit) {
-            db.update(db.getId());
-            setResult(RESULT_OK, getIntent().putExtra("MemberDB", db));
-        } else {
-            db.save();
-            setResult(RESULT_OK);
-        }
+//        if (isEdit) {
+//            db.update(db.getId());
+//            setResult(RESULT_OK, getIntent().putExtra("MemberDB", db));
+//        } else {
+//            db.save();
+//            setResult(RESULT_OK);
+//        }
 
         finish();
     }

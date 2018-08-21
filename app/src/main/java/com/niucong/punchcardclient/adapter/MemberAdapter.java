@@ -9,7 +9,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.niucong.punchcardclient.MemberActivity;
 import com.niucong.punchcardclient.R;
-import com.niucong.punchcardclient.db.MemberDB;
+import com.niucong.punchcardclient.net.db.MemberDB;
 
 import java.util.List;
 
@@ -39,7 +39,7 @@ public class MemberAdapter extends BaseQuickAdapter<MemberDB, BaseViewHolder> {
         helper.setText(R.id.item_member_mac, db.getMAC());
 
         if (0 == db.getIsDelete()) {
-            if (db.getType() == 3 && db.getMemberId() == 0) {
+            if (db.getType() == 3 && db.getSuperId() == 0) {
                 helper.setText(R.id.item_member_status, "待编辑");
             } else {
                 helper.setText(R.id.item_member_status, "正常");
@@ -52,7 +52,7 @@ public class MemberAdapter extends BaseQuickAdapter<MemberDB, BaseViewHolder> {
             @Override
             public void onClick(View v) {
                 boolean isEdit = false;
-                if (db.getType() == 3 && db.getMemberId() == 0) {
+                if (db.getType() == 3 && db.getSuperId() == 0) {
                     isEdit = true;
                 }
                 ((Activity) context).startActivityForResult(new Intent(context, MemberActivity.class)
