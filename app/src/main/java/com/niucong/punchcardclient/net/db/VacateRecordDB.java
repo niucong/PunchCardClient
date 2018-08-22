@@ -1,9 +1,12 @@
 package com.niucong.punchcardclient.net.db;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * 请假记录
  */
-public class VacateRecordDB {
+public class VacateRecordDB implements Parcelable {
 
     private long id;// 唯一主键
     private int memberId;// 请假者Id
@@ -63,6 +66,9 @@ public class VacateRecordDB {
     }
 
     public String getCause() {
+        if (cause == null) {
+            cause = "";
+        }
         return cause;
     }
 
@@ -141,4 +147,61 @@ public class VacateRecordDB {
     public void setNumber(int number) {
         this.number = number;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.id);
+        dest.writeInt(this.memberId);
+        dest.writeString(this.name);
+        dest.writeInt(this.superId);
+        dest.writeInt(this.type);
+        dest.writeString(this.cause);
+        dest.writeLong(this.createTime);
+        dest.writeLong(this.startTime);
+        dest.writeLong(this.endTime);
+        dest.writeLong(this.editTime);
+        dest.writeInt(this.approveResult);
+        dest.writeByte(this.isUpPush ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isDownPush ? (byte) 1 : (byte) 0);
+        dest.writeLong(this.lastPushTime);
+        dest.writeInt(this.number);
+    }
+
+    public VacateRecordDB() {
+    }
+
+    protected VacateRecordDB(Parcel in) {
+        this.id = in.readLong();
+        this.memberId = in.readInt();
+        this.name = in.readString();
+        this.superId = in.readInt();
+        this.type = in.readInt();
+        this.cause = in.readString();
+        this.createTime = in.readLong();
+        this.startTime = in.readLong();
+        this.endTime = in.readLong();
+        this.editTime = in.readLong();
+        this.approveResult = in.readInt();
+        this.isUpPush = in.readByte() != 0;
+        this.isDownPush = in.readByte() != 0;
+        this.lastPushTime = in.readLong();
+        this.number = in.readInt();
+    }
+
+    public static final Creator<VacateRecordDB> CREATOR = new Creator<VacateRecordDB>() {
+        @Override
+        public VacateRecordDB createFromParcel(Parcel source) {
+            return new VacateRecordDB(source);
+        }
+
+        @Override
+        public VacateRecordDB[] newArray(int size) {
+            return new VacateRecordDB[size];
+        }
+    };
 }

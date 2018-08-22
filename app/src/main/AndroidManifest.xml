@@ -37,7 +37,7 @@
             android:name=".MemberActivity"
             android:label="人员管理"/>
         <activity
-            android:name=".VacateRecordListActivity"
+            android:name=".VacateListActivity"
             android:label="查看假条"/>
         <activity
             android:name=".VacateActivity"

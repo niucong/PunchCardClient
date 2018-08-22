@@ -39,7 +39,7 @@ public class MemberAdapter extends BaseQuickAdapter<MemberDB, BaseViewHolder> {
         helper.setText(R.id.item_member_mac, db.getMAC());
 
         if (0 == db.getIsDelete()) {
-            if (db.getType() == 3 && db.getSuperId() == 0) {
+            if (db.getType() != 1 && db.getSuperId() == 0) {
                 helper.setText(R.id.item_member_status, "待编辑");
             } else {
                 helper.setText(R.id.item_member_status, "正常");

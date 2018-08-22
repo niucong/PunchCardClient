@@ -4,6 +4,7 @@ import com.niucong.punchcardclient.net.bean.LoginBean;
 import com.niucong.punchcardclient.net.bean.SignInBean;
 import com.niucong.punchcardclient.net.bean.SignInListBean;
 import com.niucong.punchcardclient.net.bean.VacateBean;
+import com.niucong.punchcardclient.net.bean.VacateListBean;
 
 import java.util.Map;
 
@@ -31,6 +32,6 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("vacateList")
-    Observable<VacateBean> vacateList(@FieldMap Map<String, String> fields);
+    Observable<VacateListBean> vacateList(@FieldMap Map<String, String> fields);
 
 }
