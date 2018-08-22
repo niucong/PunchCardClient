@@ -42,6 +42,9 @@
         <activity
             android:name=".VacateActivity"
             android:label="查看假条"/>
+        <activity
+            android:name=".PlanActivity"
+            android:label="课程计划"/>
     </application>
 
 </manifest>

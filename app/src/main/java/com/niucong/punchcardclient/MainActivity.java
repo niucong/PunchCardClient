@@ -68,6 +68,9 @@ public class MainActivity extends BasicActivity {
                 case R.id.main_vacate:
                     startActivity(new Intent(MainActivity.this, VacateListActivity.class));
                     break;
+                case R.id.main_plan:
+                    startActivity(new Intent(MainActivity.this, PlanActivity.class));
+                    break;
             }
         }
     }

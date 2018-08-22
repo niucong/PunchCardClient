@@ -68,7 +68,7 @@ public class VacateActivity extends BasicActivity {
 
             binding.vataceStatusLl.setVisibility(View.VISIBLE);
             Log.d("VacateActivity", "userId=" + App.sp.getInt("userId", 0) + ",MemberId=" + db.getMemberId() + ",SuperId=" + db.getSuperId());
-            if (App.sp.getInt("userId", 0) == db.getSuperId()) {
+            if (App.sp.getInt("userId", 0) == db.getSuperId() && db.getApproveResult() == 0) {
                 binding.vataceStatus.setVisibility(View.GONE);
                 binding.vataceStatusRg.setVisibility(View.VISIBLE);
                 binding.vataceStatus2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -80,9 +80,12 @@ public class VacateActivity extends BasicActivity {
             } else {
                 binding.vataceStatus.setVisibility(View.VISIBLE);
                 binding.vataceStatusRg.setVisibility(View.GONE);
+                binding.vataceButton.setVisibility(View.GONE);
                 binding.vataceStatus.setText(db.getApproveResult() == 0 ? "待批复" :
                         db.getApproveResult() == 1 ? "同意" : "不同意");
             }
+        } else {
+            actionBar.setTitle("新建假条");
         }
     }
 

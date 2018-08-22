@@ -179,7 +179,7 @@ public class VacateListActivity extends BasicActivity implements BaseQuickAdapte
                 this.finish();
                 break;
             case R.id.action_add:
-                startActivity(new Intent(VacateListActivity.this, VacateActivity.class));
+                startActivityForResult(new Intent(VacateListActivity.this, VacateActivity.class), 1);
                 break;
         }
         return super.onOptionsItemSelected(item);

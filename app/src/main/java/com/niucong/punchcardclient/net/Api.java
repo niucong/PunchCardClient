@@ -1,6 +1,7 @@
 package com.niucong.punchcardclient.net;
 
 import com.niucong.punchcardclient.net.bean.LoginBean;
+import com.niucong.punchcardclient.net.bean.MemberListBean;
 import com.niucong.punchcardclient.net.bean.SignInBean;
 import com.niucong.punchcardclient.net.bean.SignInListBean;
 import com.niucong.punchcardclient.net.bean.VacateBean;
@@ -19,6 +20,9 @@ public interface Api {
     @POST("login")
     Observable<LoginBean> login(@FieldMap Map<String, String> fields);
 
+    @POST("memberList")
+    Observable<MemberListBean> memberList();
+
     @POST("signIn")
     Observable<SignInBean> signIn();
 
@@ -33,5 +37,9 @@ public interface Api {
     @FormUrlEncoded
     @POST("vacateList")
     Observable<VacateListBean> vacateList(@FieldMap Map<String, String> fields);
+
+    @FormUrlEncoded
+    @POST("plan")
+    Observable<VacateBean> plan(@FieldMap Map<String, String> fields);
 
 }
