@@ -1,5 +1,6 @@
 package com.niucong.punchcardclient;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -14,11 +15,11 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.niucong.punchcardclient.adapter.SignRecordAdapter;
+import com.niucong.punchcardclient.adapter.PlanAdapter;
 import com.niucong.punchcardclient.app.App;
 import com.niucong.punchcardclient.net.ApiCallback;
-import com.niucong.punchcardclient.net.bean.SignInListBean;
-import com.niucong.punchcardclient.net.db.SignRecordDB;
+import com.niucong.punchcardclient.net.bean.PlanListBean;
+import com.niucong.punchcardclient.net.db.PlanDB;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,17 +29,17 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SignRecordListActivity extends BasicActivity implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
+public class PlanListActivity extends BasicActivity implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
 
-    @BindView(R.id.signrecord_search)
-    EditText signrecordSearch;
-    @BindView(R.id.signrecord_rv)
-    RecyclerView signrecordRv;
-    @BindView(R.id.signrecord_srl)
-    SwipeRefreshLayout signrecordSrl;
+    @BindView(R.id.plan_search)
+    EditText planSearch;
+    @BindView(R.id.plan_rv)
+    RecyclerView planRv;
+    @BindView(R.id.plan_srl)
+    SwipeRefreshLayout planSrl;
 
-    private SignRecordAdapter adapter;
-    private List<SignRecordDB> list = new ArrayList<>();
+    private PlanAdapter adapter;
+    private List<PlanDB> list = new ArrayList<>();
 
     private int allSize;
     private int offset = 0;
@@ -48,7 +49,7 @@ public class SignRecordListActivity extends BasicActivity implements BaseQuickAd
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signrecord_list);
+        setContentView(R.layout.activity_plan_list);
         ButterKnife.bind(this);
 
         ActionBar actionBar = getSupportActionBar();
@@ -56,7 +57,7 @@ public class SignRecordListActivity extends BasicActivity implements BaseQuickAd
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        signrecordSearch.addTextChangedListener(new TextWatcher() {
+        planSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -80,25 +81,24 @@ public class SignRecordListActivity extends BasicActivity implements BaseQuickAd
     }
 
     private void setAdapter() {
-        signrecordSrl.setOnRefreshListener(this);
-        signrecordSrl.setColorSchemeColors(Color.rgb(47, 223, 189));
-        adapter = new SignRecordAdapter(R.layout.item_signrecord, list);
-        adapter.setOnLoadMoreListener(this, signrecordRv);
-        signrecordRv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        signrecordRv.setAdapter(adapter);
+        planSrl.setOnRefreshListener(this);
+        planSrl.setColorSchemeColors(Color.rgb(47, 223, 189));
+        adapter = new PlanAdapter(this, R.layout.item_plan, list);
+        adapter.setOnLoadMoreListener(this, planRv);
+        planRv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        planRv.setAdapter(adapter);
     }
 
     private void queryMembers() {
-
         Map<String, String> fields = new HashMap<>();
         fields.put("offset", "" + offset);
         fields.put("pageSize", "" + pageSize);
         if (!TextUtils.isEmpty(searchKey)) {
             fields.put("searchKey", searchKey);
         }
-        addSubscription(getApi().signInList(fields), new ApiCallback<SignInListBean>() {
+        addSubscription(getApi().planList(fields), new ApiCallback<PlanListBean>() {
             @Override
-            public void onSuccess(SignInListBean model) {
+            public void onSuccess(PlanListBean model) {
                 if (model != null) {
                     App.showToast("" + model.getMsg());
                     if (model.getCode() == 1) {
@@ -114,9 +114,9 @@ public class SignRecordListActivity extends BasicActivity implements BaseQuickAd
                             adapter.loadMoreComplete();
                         }
                         //取消下拉刷新动画
-                        signrecordSrl.setRefreshing(false);
+                        planSrl.setRefreshing(false);
                         //禁止下拉刷新
-                        signrecordSrl.setEnabled(true);
+                        planSrl.setEnabled(true);
                     }
                 } else {
                     App.showToast("接口错误" + (model == null));
@@ -132,9 +132,9 @@ public class SignRecordListActivity extends BasicActivity implements BaseQuickAd
             public void onFailure(String msg) {
                 App.showToast("请求失败");
                 //取消下拉刷新动画
-                signrecordSrl.setRefreshing(false);
+                planSrl.setRefreshing(false);
                 //禁止下拉刷新
-                signrecordSrl.setEnabled(true);
+                planSrl.setEnabled(true);
             }
         });
     }
@@ -148,14 +148,26 @@ public class SignRecordListActivity extends BasicActivity implements BaseQuickAd
 
     @Override
     public void onLoadMoreRequested() {
-        signrecordSrl.setEnabled(false);
+        planSrl.setEnabled(false);
         offset = list.size();
         queryMembers();
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 1) {
+                adapter.setEnableLoadMore(false);
+                offset = 0;
+                queryMembers();
+            }
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        this.getMenuInflater().inflate(R.menu.menu_signrecord, menu);
+        this.getMenuInflater().inflate(R.menu.menu_vacate, menu);
         return true;
     }
 
@@ -166,7 +178,8 @@ public class SignRecordListActivity extends BasicActivity implements BaseQuickAd
             case android.R.id.home:
                 this.finish();
                 break;
-            case R.id.action_date:
+            case R.id.action_add:
+                startActivityForResult(new Intent(PlanListActivity.this, PlanActivity.class), 1);
                 break;
         }
         return super.onOptionsItemSelected(item);

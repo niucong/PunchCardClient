@@ -17,8 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login">
+            android:name=".LoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -28,7 +27,7 @@
         <activity android:name=".MainActivity">
         </activity>
         <activity
-            android:name=".SignRecordListActivity"
+            android:name=".SignListActivity"
             android:label="考勤管理"/>
         <activity
             android:name=".MemberListActivity"
@@ -42,6 +41,9 @@
         <activity
             android:name=".VacateActivity"
             android:label="查看假条"/>
+        <activity
+            android:name=".PlanListActivity"
+            android:label="课程计划"/>
         <activity
             android:name=".PlanActivity"
             android:label="课程计划"/>

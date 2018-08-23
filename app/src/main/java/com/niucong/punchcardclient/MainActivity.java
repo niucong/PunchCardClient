@@ -9,7 +9,7 @@ import android.view.View;
 import com.niucong.punchcardclient.app.App;
 import com.niucong.punchcardclient.databinding.ActivityMainBinding;
 import com.niucong.punchcardclient.net.ApiCallback;
-import com.niucong.punchcardclient.net.bean.SignInBean;
+import com.niucong.punchcardclient.net.bean.BasicBean;
 
 public class MainActivity extends BasicActivity {
 
@@ -32,9 +32,9 @@ public class MainActivity extends BasicActivity {
             Log.d("MainActivity", "MainClickHandlers");
             switch (v.getId()) {
                 case R.id.main_sign:
-                    addSubscription(getApi().signIn(), new ApiCallback<SignInBean>() {
+                    addSubscription(getApi().sign(), new ApiCallback<BasicBean>() {
                         @Override
-                        public void onSuccess(SignInBean model) {
+                        public void onSuccess(BasicBean model) {
                             if (model != null) {
                                 App.showToast("" + model.getMsg());
                                 if (model.getCode() == 1) {
@@ -63,13 +63,13 @@ public class MainActivity extends BasicActivity {
                     startActivity(new Intent(MainActivity.this, MemberListActivity.class));
                     break;
                 case R.id.main_attendance:
-                    startActivity(new Intent(MainActivity.this, SignRecordListActivity.class));
+                    startActivity(new Intent(MainActivity.this, SignListActivity.class));
                     break;
                 case R.id.main_vacate:
                     startActivity(new Intent(MainActivity.this, VacateListActivity.class));
                     break;
                 case R.id.main_plan:
-                    startActivity(new Intent(MainActivity.this, PlanActivity.class));
+                    startActivity(new Intent(MainActivity.this, PlanListActivity.class));
                     break;
             }
         }

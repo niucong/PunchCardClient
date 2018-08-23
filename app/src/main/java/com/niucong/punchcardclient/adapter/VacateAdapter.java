@@ -4,20 +4,20 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.niucong.punchcardclient.R;
 import com.niucong.punchcardclient.VacateActivity;
-import com.niucong.punchcardclient.net.db.VacateRecordDB;
+import com.niucong.punchcardclient.net.db.VacateDB;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class VacateRecordAdapter extends BaseQuickAdapter<VacateRecordDB, BaseViewHolder> {
+public class VacateAdapter extends BaseQuickAdapter<VacateDB, BaseViewHolder> {
 
     private Context context;
     SimpleDateFormat YMDHM = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -26,25 +26,30 @@ public class VacateRecordAdapter extends BaseQuickAdapter<VacateRecordDB, BaseVi
      * @param layoutResId
      * @param dbs
      */
-    public VacateRecordAdapter(Context context, int layoutResId, List<VacateRecordDB> dbs) {
+    public VacateAdapter(Context context, int layoutResId, List<VacateDB> dbs) {
         super(layoutResId, dbs);
         this.context = context;
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, final VacateRecordDB db) {
+    protected void convert(BaseViewHolder helper, final VacateDB db) {
         final int position = helper.getLayoutPosition();
         helper.setText(R.id.item_vacate_num, (position + 1) + "");
         helper.setText(R.id.item_vacate_name, db.getName());
         helper.setText(R.id.item_vacate_type, "类型：" + (db.getType() == 1 ? "事假" : db.getType() == 2 ? "病假" :
                 db.getType() == 3 ? "年假" : db.getType() == 4 ? "调休" : "其它"));
-        Log.d("VacateRecordAdapter", "cause=" + db.getCause());
-//        helper.setVisible(R.id.item_vacate_cause, !TextUtils.isEmpty(db.getCause()));
+        helper.setGone(R.id.item_vacate_cause, !TextUtils.isEmpty(db.getCause()));
         helper.setText(R.id.item_vacate_cause, "原因：" + db.getCause());
-        helper.setText(R.id.item_vacate_starttime, YMDHM.format(new Date(db.getStartTime())));
-        helper.setText(R.id.item_vacate_endtime, YMDHM.format(new Date(db.getEndTime())));
+        helper.setText(R.id.item_vacate_starttime, "起：" + YMDHM.format(new Date(db.getStartTime())));
+        helper.setText(R.id.item_vacate_endtime, "止：" + YMDHM.format(new Date(db.getEndTime())));
         helper.setText(R.id.item_vacate_creattime, "提交时间：" + YMDHM.format(new Date(db.getCreateTime())));
-        helper.setText(R.id.item_vacate_edittime, "批复时间：" + (db.getEditTime() > 0 ? YMDHM.format(new Date(db.getEditTime())) : ""));
+        if (db.getEditTime() > 0) {
+            helper.setText(R.id.item_vacate_edittime, "批复时间：" + YMDHM.format(new Date(db.getEditTime())));
+            helper.setGone(R.id.item_vacate_edittime, true);
+        } else {
+            helper.setGone(R.id.item_vacate_edittime, false);
+        }
+
 
         if (db.getApproveResult() == 0) {
             setTextStutas(helper, "待批复", Color.argb(168, 0, 0, 255));
@@ -58,12 +63,8 @@ public class VacateRecordAdapter extends BaseQuickAdapter<VacateRecordDB, BaseVi
         helper.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean isEdit = false;
-                if (db.getType() == 3 && db.getSuperId() == 0) {
-                    isEdit = true;
-                }
                 ((Activity) context).startActivityForResult(new Intent(context, VacateActivity.class)
-                        .putExtra("VacateRecordDB", db), 1);
+                        .putExtra("VacateDB", db), 1);
             }
         });
 

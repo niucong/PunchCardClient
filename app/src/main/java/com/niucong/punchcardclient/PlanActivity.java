@@ -3,6 +3,7 @@ package com.niucong.punchcardclient;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
@@ -10,19 +11,21 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.niucong.punchcardclient.app.App;
 import com.niucong.punchcardclient.databinding.ActivityPlanBinding;
 import com.niucong.punchcardclient.dialog.DateSelectDialog;
 import com.niucong.punchcardclient.net.ApiCallback;
+import com.niucong.punchcardclient.net.bean.BasicBean;
 import com.niucong.punchcardclient.net.bean.MemberListBean;
-import com.niucong.punchcardclient.net.bean.VacateBean;
-import com.niucong.punchcardclient.net.db.CoursePlanDB;
 import com.niucong.punchcardclient.net.db.MemberDB;
+import com.niucong.punchcardclient.net.db.PlanDB;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +36,7 @@ public class PlanActivity extends BasicActivity {
 
     SimpleDateFormat YMDHM = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
-    private CoursePlanDB db;
+    private PlanDB db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +50,96 @@ public class PlanActivity extends BasicActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        db = getIntent().getParcelableExtra("PlanDB");
+        if (db == null) {
+            actionBar.setTitle("新建计划");
+        } else {
+
+            binding.planName.setText(db.getName());
+            binding.planCreator.setVisibility(View.VISIBLE);
+            binding.planCreator.setText("创建者：" + db.getCreaterName());
+            binding.planCreate.setVisibility(View.VISIBLE);
+            binding.planCreate.setText("创建时间：" + YMDHM.format(new Date(db.getCreateTime())));
+            binding.planMembers.setText("");
+
+            String names = "";
+            Log.d("PlanAdapter", "members=" + db.getMembers());
+            try {
+                List<MemberDB> members = JSON.parseArray(db.getMembers(), MemberDB.class);
+                for (MemberDB member : members) {
+                    names += "，" + member.getName();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            Log.d("PlanAdapter", "names=" + names);
+            if (names.length() > 0) {
+                names = names.substring(1);
+                binding.planMembers.setText("相关人员：" + names);
+                binding.planMembersLl.setVisibility(View.VISIBLE);
+            } else {
+                binding.planMembersLl.setVisibility(View.GONE);
+            }
+
+            binding.planStart.setText(YMDHM.format(new Date(db.getStartTime())));
+            binding.planEnd.setText(YMDHM.format(new Date(db.getEndTime())));
+
+            if (db.getEditTime() > 0) {
+                binding.planEdit.setVisibility(View.VISIBLE);
+                binding.planEdit.setText("修改时间：" + YMDHM.format(new Date(db.getEditTime())));
+            }
+
+            binding.planStatusLl.setVisibility(View.VISIBLE);
+            binding.planButton.setVisibility(View.GONE);
+            if (db.getForceFinish() == 0) {
+                if (db.getStartTime() > System.currentTimeMillis()) {
+                    setTextStutas("未开始", Color.argb(168, 0, 0, 255));
+                    if (App.sp.getInt("userId", 0) == db.getCreaterId()) {
+                        binding.planIsfinish.setVisibility(View.VISIBLE);
+                        binding.planIsfinish.setText("取消计划");
+                        binding.planIsfinishCause.setVisibility(View.VISIBLE);
+                        binding.planButton.setVisibility(View.VISIBLE);
+                    }
+                } else if (db.getEndTime() > System.currentTimeMillis()) {
+                    setTextStutas("进行中", Color.argb(168, 0, 255, 0));
+                    if (App.sp.getInt("userId", 0) == db.getCreaterId()) {
+                        binding.planIsfinish.setVisibility(View.VISIBLE);
+                        binding.planIsfinish.setText("终止计划");
+                        binding.planIsfinishCause.setVisibility(View.VISIBLE);
+                        binding.planButton.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    setTextStutas("已结束", Color.argb(168, 255, 255, 255));
+                }
+            } else if (db.getForceFinish() == 1) {
+                setTextStutas("已取消", Color.argb(168, 255, 0, 0));
+            } else {
+                setTextStutas("已终止", Color.argb(168, 255, 0, 0));
+            }
+
+            binding.planName.setEnabled(false);
+            binding.planMembers.setEnabled(false);
+            binding.planStart.setEnabled(false);
+            binding.planEnd.setEnabled(false);
+
+            binding.planName.setBackgroundColor(Color.alpha(0));
+            binding.planName.setTextColor(Color.GRAY);
+            binding.planMembers.setTextColor(Color.GRAY);
+            binding.planStart.setTextColor(Color.GRAY);
+            binding.planEnd.setTextColor(Color.GRAY);
+
+        }
+    }
+
+    private void setTextStutas(String msg, int color) {
+        binding.planStatus.setText(msg);
+        binding.planStatus.setTextColor(color);
     }
 
     public class PlanClickHandlers {
         public void onClickName(View v) {
             switch (v.getId()) {
-                case R.id.plan_owners:
+                case R.id.plan_members:
                     if (list != null) {
                         selectMember();
                     } else {
@@ -131,7 +218,7 @@ public class PlanActivity extends BasicActivity {
                         if (names.length() > 0) {
                             names = names.substring(1);
                         }
-                        binding.planOwners.setText(names);
+                        binding.planMembers.setText(names);
                     }
                 })
                 .show();
@@ -189,12 +276,12 @@ public class PlanActivity extends BasicActivity {
             }
         } else {
             fields.put("serverId", "" + db.getId());
-            fields.put("forceFinish", "" + 1);
-            fields.put("cause", binding.planName.getText().toString().trim());
+            fields.put("forceFinish", "" + (db.getStartTime() > System.currentTimeMillis() ? 1 : 2));
+            fields.put("cause", binding.planIsfinishCause.getText().toString().trim());
         }
-        addSubscription(getApi().plan(fields), new ApiCallback<VacateBean>() {
+        addSubscription(getApi().plan(fields), new ApiCallback<BasicBean>() {
             @Override
-            public void onSuccess(VacateBean model) {
+            public void onSuccess(BasicBean model) {
                 if (model != null) {
                     App.showToast("" + model.getMsg());
                     if (model.getCode() == 1) {
@@ -213,7 +300,7 @@ public class PlanActivity extends BasicActivity {
 
             @Override
             public void onFailure(String msg) {
-                App.showToast("请假/批假失败");
+                App.showToast("操作失败");
             }
         });
     }

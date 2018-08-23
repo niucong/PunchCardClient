@@ -1,13 +1,13 @@
 package com.niucong.punchcardclient.net.bean;
 
-import com.niucong.punchcardclient.net.db.VacateDB;
+import com.niucong.punchcardclient.net.db.SignDB;
 
 import java.util.List;
 
-public class VacateListBean extends BasicBean {
+public class SignListBean extends BasicBean {
 
     private int allSize;
-    private List<VacateDB> list;
+    private List<SignDB> list;
 
     public int getAllSize() {
         return allSize;
@@ -17,11 +17,11 @@ public class VacateListBean extends BasicBean {
         this.allSize = allSize;
     }
 
-    public List<VacateDB> getList() {
+    public List<SignDB> getList() {
         return list;
     }
 
-    public void setList(List<VacateDB> list) {
+    public void setList(List<SignDB> list) {
         this.list = list;
     }
 }

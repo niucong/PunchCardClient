@@ -1,6 +1,5 @@
 package com.niucong.punchcardclient;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -15,11 +14,11 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.niucong.punchcardclient.adapter.VacateAdapter;
+import com.niucong.punchcardclient.adapter.SignAdapter;
 import com.niucong.punchcardclient.app.App;
 import com.niucong.punchcardclient.net.ApiCallback;
-import com.niucong.punchcardclient.net.bean.VacateListBean;
-import com.niucong.punchcardclient.net.db.VacateDB;
+import com.niucong.punchcardclient.net.bean.SignListBean;
+import com.niucong.punchcardclient.net.db.SignDB;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,17 +28,17 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class VacateListActivity extends BasicActivity implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
+public class SignListActivity extends BasicActivity implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
 
-    @BindView(R.id.vacate_search)
-    EditText vacateSearch;
-    @BindView(R.id.vacate_rv)
-    RecyclerView vacateRv;
-    @BindView(R.id.vacate_srl)
-    SwipeRefreshLayout vacateSrl;
+    @BindView(R.id.sign_search)
+    EditText signSearch;
+    @BindView(R.id.sign_rv)
+    RecyclerView signRv;
+    @BindView(R.id.sign_srl)
+    SwipeRefreshLayout signSrl;
 
-    private VacateAdapter adapter;
-    private List<VacateDB> list = new ArrayList<>();
+    private SignAdapter adapter;
+    private List<SignDB> list = new ArrayList<>();
 
     private int allSize;
     private int offset = 0;
@@ -49,7 +48,7 @@ public class VacateListActivity extends BasicActivity implements BaseQuickAdapte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_vacate_list);
+        setContentView(R.layout.activity_sign_list);
         ButterKnife.bind(this);
 
         ActionBar actionBar = getSupportActionBar();
@@ -57,7 +56,7 @@ public class VacateListActivity extends BasicActivity implements BaseQuickAdapte
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        vacateSearch.addTextChangedListener(new TextWatcher() {
+        signSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -81,24 +80,25 @@ public class VacateListActivity extends BasicActivity implements BaseQuickAdapte
     }
 
     private void setAdapter() {
-        vacateSrl.setOnRefreshListener(this);
-        vacateSrl.setColorSchemeColors(Color.rgb(47, 223, 189));
-        adapter = new VacateAdapter(this, R.layout.item_vacate, list);
-        adapter.setOnLoadMoreListener(this, vacateRv);
-        vacateRv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        vacateRv.setAdapter(adapter);
+        signSrl.setOnRefreshListener(this);
+        signSrl.setColorSchemeColors(Color.rgb(47, 223, 189));
+        adapter = new SignAdapter(R.layout.item_sign, list);
+        adapter.setOnLoadMoreListener(this, signRv);
+        signRv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        signRv.setAdapter(adapter);
     }
 
     private void queryMembers() {
+
         Map<String, String> fields = new HashMap<>();
         fields.put("offset", "" + offset);
         fields.put("pageSize", "" + pageSize);
         if (!TextUtils.isEmpty(searchKey)) {
             fields.put("searchKey", searchKey);
         }
-        addSubscription(getApi().vacateList(fields), new ApiCallback<VacateListBean>() {
+        addSubscription(getApi().signList(fields), new ApiCallback<SignListBean>() {
             @Override
-            public void onSuccess(VacateListBean model) {
+            public void onSuccess(SignListBean model) {
                 if (model != null) {
                     App.showToast("" + model.getMsg());
                     if (model.getCode() == 1) {
@@ -114,9 +114,9 @@ public class VacateListActivity extends BasicActivity implements BaseQuickAdapte
                             adapter.loadMoreComplete();
                         }
                         //取消下拉刷新动画
-                        vacateSrl.setRefreshing(false);
+                        signSrl.setRefreshing(false);
                         //禁止下拉刷新
-                        vacateSrl.setEnabled(true);
+                        signSrl.setEnabled(true);
                     }
                 } else {
                     App.showToast("接口错误" + (model == null));
@@ -132,9 +132,9 @@ public class VacateListActivity extends BasicActivity implements BaseQuickAdapte
             public void onFailure(String msg) {
                 App.showToast("请求失败");
                 //取消下拉刷新动画
-                vacateSrl.setRefreshing(false);
+                signSrl.setRefreshing(false);
                 //禁止下拉刷新
-                vacateSrl.setEnabled(true);
+                signSrl.setEnabled(true);
             }
         });
     }
@@ -148,26 +148,14 @@ public class VacateListActivity extends BasicActivity implements BaseQuickAdapte
 
     @Override
     public void onLoadMoreRequested() {
-        vacateSrl.setEnabled(false);
+        signSrl.setEnabled(false);
         offset = list.size();
         queryMembers();
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (requestCode == 1) {
-                adapter.setEnableLoadMore(false);
-                offset = 0;
-                queryMembers();
-            }
-        }
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        this.getMenuInflater().inflate(R.menu.menu_vacate, menu);
+        this.getMenuInflater().inflate(R.menu.menu_sign, menu);
         return true;
     }
 
@@ -178,8 +166,7 @@ public class VacateListActivity extends BasicActivity implements BaseQuickAdapte
             case android.R.id.home:
                 this.finish();
                 break;
-            case R.id.action_add:
-                startActivityForResult(new Intent(VacateListActivity.this, VacateActivity.class), 1);
+            case R.id.action_date:
                 break;
         }
         return super.onOptionsItemSelected(item);

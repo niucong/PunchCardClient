@@ -14,8 +14,8 @@ import com.niucong.punchcardclient.app.App;
 import com.niucong.punchcardclient.databinding.ActivityVacateBinding;
 import com.niucong.punchcardclient.dialog.DateSelectDialog;
 import com.niucong.punchcardclient.net.ApiCallback;
-import com.niucong.punchcardclient.net.bean.VacateBean;
-import com.niucong.punchcardclient.net.db.VacateRecordDB;
+import com.niucong.punchcardclient.net.bean.BasicBean;
+import com.niucong.punchcardclient.net.db.VacateDB;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,7 +29,7 @@ public class VacateActivity extends BasicActivity {
 
     SimpleDateFormat YMDHM = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
-    private VacateRecordDB db;
+    private VacateDB db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +49,7 @@ public class VacateActivity extends BasicActivity {
             binding.vataceLeave5.setVisibility(View.GONE);
         }
 
-        db = getIntent().getParcelableExtra("VacateRecordDB");
+        db = getIntent().getParcelableExtra("VacateDB");
         if (db != null) {
             binding.vataceType.setVisibility(View.GONE);
             binding.vataceTypeTv.setVisibility(View.VISIBLE);
@@ -147,9 +147,9 @@ public class VacateActivity extends BasicActivity {
             fields.put("approveResult", "" + (binding.vataceStatus2.isChecked() ? 2 : 1));
             fields.put("refuseCause", binding.vataceStatusCause.getText().toString().trim());
         }
-        addSubscription(getApi().vacate(fields), new ApiCallback<VacateBean>() {
+        addSubscription(getApi().vacate(fields), new ApiCallback<BasicBean>() {
             @Override
-            public void onSuccess(VacateBean model) {
+            public void onSuccess(BasicBean model) {
                 if (model != null) {
                     App.showToast("" + model.getMsg());
                     if (model.getCode() == 1) {

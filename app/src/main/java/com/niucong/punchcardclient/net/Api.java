@@ -1,10 +1,10 @@
 package com.niucong.punchcardclient.net;
 
+import com.niucong.punchcardclient.net.bean.BasicBean;
 import com.niucong.punchcardclient.net.bean.LoginBean;
 import com.niucong.punchcardclient.net.bean.MemberListBean;
-import com.niucong.punchcardclient.net.bean.SignInBean;
-import com.niucong.punchcardclient.net.bean.SignInListBean;
-import com.niucong.punchcardclient.net.bean.VacateBean;
+import com.niucong.punchcardclient.net.bean.PlanListBean;
+import com.niucong.punchcardclient.net.bean.SignListBean;
 import com.niucong.punchcardclient.net.bean.VacateListBean;
 
 import java.util.Map;
@@ -23,16 +23,16 @@ public interface Api {
     @POST("memberList")
     Observable<MemberListBean> memberList();
 
-    @POST("signIn")
-    Observable<SignInBean> signIn();
+    @POST("sign")
+    Observable<BasicBean> sign();
 
     @FormUrlEncoded
-    @POST("signInList")
-    Observable<SignInListBean> signInList(@FieldMap Map<String, String> fields);
+    @POST("signList")
+    Observable<SignListBean> signList(@FieldMap Map<String, String> fields);
 
     @FormUrlEncoded
     @POST("vacate")
-    Observable<VacateBean> vacate(@FieldMap Map<String, String> fields);
+    Observable<BasicBean> vacate(@FieldMap Map<String, String> fields);
 
     @FormUrlEncoded
     @POST("vacateList")
@@ -40,6 +40,10 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("plan")
-    Observable<VacateBean> plan(@FieldMap Map<String, String> fields);
+    Observable<BasicBean> plan(@FieldMap Map<String, String> fields);
+
+    @FormUrlEncoded
+    @POST("planList")
+    Observable<PlanListBean> planList(@FieldMap Map<String, String> fields);
 
 }

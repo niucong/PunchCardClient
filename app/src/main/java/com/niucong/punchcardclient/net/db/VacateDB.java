@@ -6,7 +6,7 @@ import android.os.Parcelable;
 /**
  * 请假记录
  */
-public class VacateRecordDB implements Parcelable {
+public class VacateDB implements Parcelable {
 
     private long id;// 唯一主键
     private int memberId;// 请假者Id
@@ -172,10 +172,10 @@ public class VacateRecordDB implements Parcelable {
         dest.writeInt(this.number);
     }
 
-    public VacateRecordDB() {
+    public VacateDB() {
     }
 
-    protected VacateRecordDB(Parcel in) {
+    protected VacateDB(Parcel in) {
         this.id = in.readLong();
         this.memberId = in.readInt();
         this.name = in.readString();
@@ -193,15 +193,15 @@ public class VacateRecordDB implements Parcelable {
         this.number = in.readInt();
     }
 
-    public static final Creator<VacateRecordDB> CREATOR = new Creator<VacateRecordDB>() {
+    public static final Creator<VacateDB> CREATOR = new Creator<VacateDB>() {
         @Override
-        public VacateRecordDB createFromParcel(Parcel source) {
-            return new VacateRecordDB(source);
+        public VacateDB createFromParcel(Parcel source) {
+            return new VacateDB(source);
         }
 
         @Override
-        public VacateRecordDB[] newArray(int size) {
-            return new VacateRecordDB[size];
+        public VacateDB[] newArray(int size) {
+            return new VacateDB[size];
         }
     };
 }

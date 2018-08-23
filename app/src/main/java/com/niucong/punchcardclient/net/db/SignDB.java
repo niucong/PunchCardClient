@@ -3,7 +3,7 @@ package com.niucong.punchcardclient.net.db;
 /**
  * 打卡记录
  */
-public class SignRecordDB {
+public class SignDB {
 
     private long id;// 唯一主键
     private int memberId;// 实验室人员Id

@@ -18,22 +18,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
+            android:orientation="horizontal" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="计划名称："
                 android:textSize="18dp"/>
-
-            <TextView
-                android:id="@+id/plan_name_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18dp"
-                android:visibility="gone"/>
 
             <EditText
                 android:id="@+id/plan_name"
@@ -45,12 +36,30 @@
                 android:textSize="18dp"/>
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/plan_creator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="创建者"
+            android:paddingBottom="10dp"
+            android:visibility="gone"
+            android:textSize="18dp"/>
+
+        <TextView
+            android:id="@+id/plan_create"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="创建时间"
+            android:paddingBottom="10dp"
+            android:visibility="gone"
+            android:textSize="18dp"/>
+
         <LinearLayout
+            android:id="@+id/plan_members_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
+            android:paddingBottom="10dp" >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -59,7 +68,7 @@
                 android:textSize="18dp"/>
 
             <TextView
-                android:id="@+id/plan_owners"
+                android:id="@+id/plan_members"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="请点击选择"
@@ -71,8 +80,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
+            android:paddingBottom="10dp" >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -93,8 +101,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
+            android:paddingBottom="10dp" >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -111,6 +118,15 @@
                 android:textSize="18dp"/>
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/plan_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="取消/终止时间"
+            android:paddingBottom="10dp"
+            android:visibility="gone"
+            android:textSize="18dp"/>
+
         <LinearLayout
             android:id="@+id/plan_status_ll"
             android:layout_width="match_parent"
@@ -118,7 +134,6 @@
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingBottom="10dp"
-            android:paddingTop="10dp"
             android:visibility="gone">
 
             <TextView
@@ -139,8 +154,6 @@
             android:id="@+id/plan_isfinish"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
             android:text="终止计划"
             android:textSize="18dp"
             android:visibility="gone"/>
@@ -149,6 +162,7 @@
             android:id="@+id/plan_isfinish_cause"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
             android:visibility="gone"
             android:hint="取消/终止原因"/>
 

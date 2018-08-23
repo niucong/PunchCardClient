@@ -87,7 +87,8 @@
                 android:onClick="@{handlers::onClickName}"
                 android:text="人员管理"
                 android:textSize="18dp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:visibility="gone"/>
         </LinearLayout>
 
     </LinearLayout>

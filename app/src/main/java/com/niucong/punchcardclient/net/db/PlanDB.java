@@ -1,9 +1,12 @@
 package com.niucong.punchcardclient.net.db;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * 课程计划
  */
-public class CoursePlanDB {
+public class PlanDB implements Parcelable {
 
     private int id;// 唯一主键
     private String name;// 计划名称
@@ -132,4 +135,59 @@ public class CoursePlanDB {
     public void setSync(boolean sync) {
         isSync = sync;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeString(this.name);
+        dest.writeString(this.members);
+        dest.writeInt(this.createrId);
+        dest.writeString(this.createrName);
+        dest.writeLong(this.createTime);
+        dest.writeLong(this.startTime);
+        dest.writeLong(this.endTime);
+        dest.writeInt(this.forceFinish);
+        dest.writeString(this.cause);
+        dest.writeLong(this.editTime);
+        dest.writeLong(this.lastPushTime);
+        dest.writeInt(this.number);
+        dest.writeByte(this.isSync ? (byte) 1 : (byte) 0);
+    }
+
+    public PlanDB() {
+    }
+
+    protected PlanDB(Parcel in) {
+        this.id = in.readInt();
+        this.name = in.readString();
+        this.members = in.readString();
+        this.createrId = in.readInt();
+        this.createrName = in.readString();
+        this.createTime = in.readLong();
+        this.startTime = in.readLong();
+        this.endTime = in.readLong();
+        this.forceFinish = in.readInt();
+        this.cause = in.readString();
+        this.editTime = in.readLong();
+        this.lastPushTime = in.readLong();
+        this.number = in.readInt();
+        this.isSync = in.readByte() != 0;
+    }
+
+    public static final Creator<PlanDB> CREATOR = new Creator<PlanDB>() {
+        @Override
+        public PlanDB createFromParcel(Parcel source) {
+            return new PlanDB(source);
+        }
+
+        @Override
+        public PlanDB[] newArray(int size) {
+            return new PlanDB[size];
+        }
+    };
 }

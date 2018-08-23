@@ -1,13 +1,13 @@
 package com.niucong.punchcardclient.net.bean;
 
-import com.niucong.punchcardclient.net.db.SignRecordDB;
+import com.niucong.punchcardclient.net.db.PlanDB;
 
 import java.util.List;
 
-public class SignInListBean extends BasicBean {
+public class PlanListBean extends BasicBean {
 
     private int allSize;
-    private List<SignRecordDB> list;
+    private List<PlanDB> list;
 
     public int getAllSize() {
         return allSize;
@@ -17,11 +17,11 @@ public class SignInListBean extends BasicBean {
         this.allSize = allSize;
     }
 
-    public List<SignRecordDB> getList() {
+    public List<PlanDB> getList() {
         return list;
     }
 
-    public void setList(List<SignRecordDB> list) {
+    public void setList(List<PlanDB> list) {
         this.list = list;
     }
 }
