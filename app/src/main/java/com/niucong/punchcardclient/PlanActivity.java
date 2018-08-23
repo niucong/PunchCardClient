@@ -57,7 +57,7 @@ public class PlanActivity extends BasicActivity {
 
             binding.planName.setText(db.getName());
             binding.planCreator.setVisibility(View.VISIBLE);
-            binding.planCreator.setText("创建者：" + db.getCreaterName());
+            binding.planCreator.setText("创建者：" + db.getCreatorName());
             binding.planCreate.setVisibility(View.VISIBLE);
             binding.planCreate.setText("创建时间：" + YMDHM.format(new Date(db.getCreateTime())));
             binding.planMembers.setText("");
@@ -75,7 +75,7 @@ public class PlanActivity extends BasicActivity {
             Log.d("PlanAdapter", "names=" + names);
             if (names.length() > 0) {
                 names = names.substring(1);
-                binding.planMembers.setText("相关人员：" + names);
+                binding.planMembers.setText("关联人员：" + names);
                 binding.planMembersLl.setVisibility(View.VISIBLE);
             } else {
                 binding.planMembersLl.setVisibility(View.GONE);
@@ -94,7 +94,7 @@ public class PlanActivity extends BasicActivity {
             if (db.getForceFinish() == 0) {
                 if (db.getStartTime() > System.currentTimeMillis()) {
                     setTextStutas("未开始", Color.argb(168, 0, 0, 255));
-                    if (App.sp.getInt("userId", 0) == db.getCreaterId()) {
+                    if (App.sp.getInt("userId", 0) == db.getCreatorId()) {
                         binding.planIsfinish.setVisibility(View.VISIBLE);
                         binding.planIsfinish.setText("取消计划");
                         binding.planIsfinishCause.setVisibility(View.VISIBLE);
@@ -102,7 +102,7 @@ public class PlanActivity extends BasicActivity {
                     }
                 } else if (db.getEndTime() > System.currentTimeMillis()) {
                     setTextStutas("进行中", Color.argb(168, 0, 255, 0));
-                    if (App.sp.getInt("userId", 0) == db.getCreaterId()) {
+                    if (App.sp.getInt("userId", 0) == db.getCreatorId()) {
                         binding.planIsfinish.setVisibility(View.VISIBLE);
                         binding.planIsfinish.setText("终止计划");
                         binding.planIsfinishCause.setVisibility(View.VISIBLE);

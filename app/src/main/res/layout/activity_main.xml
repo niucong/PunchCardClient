@@ -28,7 +28,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:onClick="@{handlers::onClickName}"
-                android:text="蓝牙打卡"
+                android:text="点击打卡"
                 android:textSize="18dp"
                 android:textStyle="bold"/>
 
@@ -38,6 +38,7 @@
                 android:layout_height="100dp"
                 android:layout_marginLeft="10dp"
                 android:onClick="@{handlers::onClickName}"
+                android:visibility="gone"
                 android:text="手动同步"
                 android:textSize="18dp"
                 android:textStyle="bold"/>
@@ -91,5 +92,16 @@
                 android:visibility="gone"/>
         </LinearLayout>
 
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/main_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:text="打卡时间：无"/>
     </LinearLayout>
 </layout>

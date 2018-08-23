@@ -69,7 +69,8 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:lines="1"
-        android:text="相关人员"
+        android:paddingBottom="5dp"
+        android:text="关联人员"
         android:textSize="18dp"/>
 
     <LinearLayout

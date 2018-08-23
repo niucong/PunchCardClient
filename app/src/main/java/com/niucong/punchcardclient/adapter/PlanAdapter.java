@@ -40,7 +40,7 @@ public class PlanAdapter extends BaseQuickAdapter<PlanDB, BaseViewHolder> {
         helper.setText(R.id.item_plan_name, db.getName());
         helper.setText(R.id.item_plan_starttime, "起：" + YMDHM.format(new Date(db.getStartTime())));
         helper.setText(R.id.item_plan_endtime, "止：" + YMDHM.format(new Date(db.getEndTime())));
-        helper.setText(R.id.item_plan_creator, "创建者：" + db.getCreaterName());
+        helper.setText(R.id.item_plan_creator, "创建者：" + db.getCreatorName());
         helper.setText(R.id.item_plan_creattime, YMDHM.format(new Date(db.getCreateTime())));
 
         if (db.getEditTime() > 0) {
@@ -63,7 +63,7 @@ public class PlanAdapter extends BaseQuickAdapter<PlanDB, BaseViewHolder> {
         Log.d("PlanAdapter", "names=" + names);
         if (names.length() > 0) {
             names = names.substring(1);
-            helper.setText(R.id.item_plan_owners, "相关人员：" + names);
+            helper.setText(R.id.item_plan_owners, "关联人员：" + names);
             helper.setGone(R.id.item_plan_owners, true);
         } else {
             helper.setGone(R.id.item_plan_owners, false);
@@ -75,7 +75,7 @@ public class PlanAdapter extends BaseQuickAdapter<PlanDB, BaseViewHolder> {
             } else if (db.getEndTime() > System.currentTimeMillis()) {
                 setTextStutas(helper, "进行中", Color.argb(168, 0, 255, 0));
             } else {
-                setTextStutas(helper, "已结束", Color.argb(168, 255, 255, 255));
+                setTextStutas(helper, "已结束", Color.argb(100, 0, 0, 0));
             }
         } else if (db.getForceFinish() == 1) {
             setTextStutas(helper, "已取消", Color.argb(168, 255, 0, 0));

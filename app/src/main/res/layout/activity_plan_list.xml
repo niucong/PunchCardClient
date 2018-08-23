@@ -15,7 +15,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
-        android:hint="计划/相关人员名称"/>
+        android:hint="计划名称"/>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/plan_srl"

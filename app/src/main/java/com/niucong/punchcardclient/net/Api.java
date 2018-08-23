@@ -4,6 +4,7 @@ import com.niucong.punchcardclient.net.bean.BasicBean;
 import com.niucong.punchcardclient.net.bean.LoginBean;
 import com.niucong.punchcardclient.net.bean.MemberListBean;
 import com.niucong.punchcardclient.net.bean.PlanListBean;
+import com.niucong.punchcardclient.net.bean.SignBean;
 import com.niucong.punchcardclient.net.bean.SignListBean;
 import com.niucong.punchcardclient.net.bean.VacateListBean;
 
@@ -24,7 +25,7 @@ public interface Api {
     Observable<MemberListBean> memberList();
 
     @POST("sign")
-    Observable<BasicBean> sign();
+    Observable<SignBean> sign();
 
     @FormUrlEncoded
     @POST("signList")
