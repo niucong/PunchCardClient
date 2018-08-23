@@ -4,4 +4,8 @@
     <item
         android:id="@+id/action_add"
         android:title="新增"/>
+
+    <item
+        android:id="@+id/action_date"
+        android:title="按日期查询"/>
 </menu>

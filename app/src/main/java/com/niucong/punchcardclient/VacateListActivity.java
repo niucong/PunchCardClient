@@ -10,8 +10,10 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -20,8 +22,14 @@ import com.niucong.punchcardclient.app.App;
 import com.niucong.punchcardclient.net.ApiCallback;
 import com.niucong.punchcardclient.net.bean.VacateListBean;
 import com.niucong.punchcardclient.net.db.VacateDB;
+import com.niucong.selectdatetime.view.NiftyDialogBuilder;
+import com.niucong.selectdatetime.view.wheel.DateTimeSelectView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -181,8 +189,66 @@ public class VacateListActivity extends BasicActivity implements BaseQuickAdapte
             case R.id.action_add:
                 startActivityForResult(new Intent(VacateListActivity.this, VacateActivity.class), 1);
                 break;
+            case R.id.action_date:
+                showSubmitDia();
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private Date startDate, endDate;
+
+    /**
+     * 选择日期对话框
+     */
+    private void showSubmitDia() {
+        final NiftyDialogBuilder submitDia = NiftyDialogBuilder.getInstance(this);
+        View selectDateView = LayoutInflater.from(this).inflate(R.layout.dialog_select_date, null);
+        final DateTimeSelectView ds = (DateTimeSelectView) selectDateView.findViewById(R.id.date_start);
+        final DateTimeSelectView de = (DateTimeSelectView) selectDateView.findViewById(R.id.date_end);
+
+        final SimpleDateFormat ymdhm = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        final Calendar c = Calendar.getInstance();
+        try {
+            startDate = ymdhm.parse(ymdhm.format(new Date()));// 当日00：00：00
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        endDate = new Date();
+
+        submitDia.withTitle("选择查询日期");
+        submitDia.withButton1Text("取消", 0).setButton1Click(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submitDia.dismiss();
+            }
+        });
+        submitDia.withButton2Text("确定", 0).setButton2Click(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    startDate = ymdhm.parse(ds.getDate());
+//                    if (ymd.format(new Date()).equals(de.getDate())) {// 结束日期是今天
+//                        endDate = new Date();// 当前时间
+//                    } else {
+//                        endDate = new Date(ymd.parse(de.getDate()).getTime() + 1000 * 60 * 60 * 24 - 1);// 当日23：59：59
+//                    }
+                    endDate = ymdhm.parse(de.getDate());
+                    if (endDate.before(startDate)) {
+                        App.showToast("开始日期不能大于结束日期");
+                    } else {
+                        queryMembers();
+                        submitDia.dismiss();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        submitDia.setCustomView(selectDateView, this);// "请选择查询日期"
+        submitDia.withMessage(null).withDuration(400);
+        submitDia.isCancelable(false);
+        submitDia.show();
     }
 
 }
