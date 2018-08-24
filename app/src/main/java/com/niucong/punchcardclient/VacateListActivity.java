@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,12 +24,11 @@ import com.niucong.punchcardclient.net.ApiCallback;
 import com.niucong.punchcardclient.net.bean.VacateListBean;
 import com.niucong.punchcardclient.net.db.VacateDB;
 import com.niucong.selectdatetime.view.NiftyDialogBuilder;
-import com.niucong.selectdatetime.view.wheel.DateTimeSelectView;
+import com.niucong.selectdatetime.view.wheel.DateSelectView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -104,6 +104,11 @@ public class VacateListActivity extends BasicActivity implements BaseQuickAdapte
         if (!TextUtils.isEmpty(searchKey)) {
             fields.put("searchKey", searchKey);
         }
+        if (startDate != null && endDate != null) {
+            fields.put("startTime", startDate.getTime() + "");
+            fields.put("endTime", endDate.getTime() + 24 * 60 * 60 * 1000 + "");
+        }
+        Log.d("VacateListActivity", "fields=" + fields.toString());
         addSubscription(getApi().vacateList(fields), new ApiCallback<VacateListBean>() {
             @Override
             public void onSuccess(VacateListBean model) {
@@ -204,13 +209,12 @@ public class VacateListActivity extends BasicActivity implements BaseQuickAdapte
     private void showSubmitDia() {
         final NiftyDialogBuilder submitDia = NiftyDialogBuilder.getInstance(this);
         View selectDateView = LayoutInflater.from(this).inflate(R.layout.dialog_select_date, null);
-        final DateTimeSelectView ds = (DateTimeSelectView) selectDateView.findViewById(R.id.date_start);
-        final DateTimeSelectView de = (DateTimeSelectView) selectDateView.findViewById(R.id.date_end);
+        final DateSelectView ds = (DateSelectView) selectDateView.findViewById(R.id.date_start);
+        final DateSelectView de = (DateSelectView) selectDateView.findViewById(R.id.date_end);
 
-        final SimpleDateFormat ymdhm = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        final Calendar c = Calendar.getInstance();
+        final SimpleDateFormat YMD = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            startDate = ymdhm.parse(ymdhm.format(new Date()));// 当日00：00：00
+            startDate = YMD.parse(YMD.format(new Date()));// 当日00：00：00
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -227,13 +231,13 @@ public class VacateListActivity extends BasicActivity implements BaseQuickAdapte
             @Override
             public void onClick(View v) {
                 try {
-                    startDate = ymdhm.parse(ds.getDate());
+                    startDate = YMD.parse(ds.getDate());
 //                    if (ymd.format(new Date()).equals(de.getDate())) {// 结束日期是今天
 //                        endDate = new Date();// 当前时间
 //                    } else {
 //                        endDate = new Date(ymd.parse(de.getDate()).getTime() + 1000 * 60 * 60 * 24 - 1);// 当日23：59：59
 //                    }
-                    endDate = ymdhm.parse(de.getDate());
+                    endDate = YMD.parse(de.getDate());
                     if (endDate.before(startDate)) {
                         App.showToast("开始日期不能大于结束日期");
                     } else {

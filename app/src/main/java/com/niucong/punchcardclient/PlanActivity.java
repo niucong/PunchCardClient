@@ -60,7 +60,6 @@ public class PlanActivity extends BasicActivity {
             binding.planCreator.setText("创建者：" + db.getCreatorName());
             binding.planCreate.setVisibility(View.VISIBLE);
             binding.planCreate.setText("创建时间：" + YMDHM.format(new Date(db.getCreateTime())));
-            binding.planMembers.setText("");
 
             String names = "";
             Log.d("PlanAdapter", "members=" + db.getMembers());
@@ -109,7 +108,7 @@ public class PlanActivity extends BasicActivity {
                         binding.planButton.setVisibility(View.VISIBLE);
                     }
                 } else {
-                    setTextStutas("已结束", Color.argb(168, 255, 255, 255));
+                    setTextStutas("已结束", Color.argb(168, 0, 0, 0));
                 }
             } else if (db.getForceFinish() == 1) {
                 setTextStutas("已取消", Color.argb(168, 255, 0, 0));
