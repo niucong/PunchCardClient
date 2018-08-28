@@ -3,14 +3,14 @@ package com.niucong.punchcardclient;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.niucong.punchcardclient.app.App;
 import com.niucong.punchcardclient.databinding.ActivityMainBinding;
 import com.niucong.punchcardclient.net.ApiCallback;
-import com.niucong.punchcardclient.net.bean.BasicBean;
 import com.niucong.punchcardclient.net.bean.SignBean;
 
 import java.text.SimpleDateFormat;
@@ -123,6 +123,26 @@ public class MainActivity extends BasicActivity {
                     break;
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        this.getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.action_logout:
+                App.sp.putInt("userId", 0);
+                App.sp.commit();
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

@@ -125,6 +125,7 @@ public class LoginActivity extends BasicActivity {
         Map<String, String> fields = new HashMap<>();
         fields.put("username", email);
         fields.put("password", password);
+        fields.put("bmobID", App.sp.getString("bmobID", ""));
         addSubscription(getApi().login(fields), new ApiCallback<LoginBean>() {
             @Override
             public void onSuccess(LoginBean model) {
