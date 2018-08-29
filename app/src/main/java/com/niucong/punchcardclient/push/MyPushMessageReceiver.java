@@ -1,11 +1,17 @@
 package com.niucong.punchcardclient.push;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
+import com.niucong.punchcardclient.PlanListActivity;
+import com.niucong.punchcardclient.R;
+import com.niucong.punchcardclient.VacateListActivity;
 import com.niucong.punchcardclient.app.App;
 import com.niucong.punchcardclient.net.bean.BasicBean;
 
@@ -22,7 +28,34 @@ public class MyPushMessageReceiver extends BroadcastReceiver {
             BasicBean bean = JSON.parseObject(intent.getStringExtra("msg"), BasicBean.class);
             App.showToast(bean.getMsg());
             EventBus.getDefault().post(bean);
+            sendNotificationWithAction(context, bean);
         }
+    }
+
+    /**
+     * 发送一个点击跳转的消息
+     */
+    private void sendNotificationWithAction(Context context, BasicBean bean) {
+        //获取PendingIntent
+        Intent mainIntent;
+        if (bean.getCode() == 0) {
+            mainIntent = new Intent(context, VacateListActivity.class);
+        } else {
+            mainIntent = new Intent(context, PlanListActivity.class);
+        }
+        PendingIntent mainPendingIntent = PendingIntent.getActivity(context, 0, mainIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        //创建 Notification.Builder 对象
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                //点击通知后自动清除
+                .setAutoCancel(true)
+                .setContentTitle(context.getString(R.string.app_name))
+                .setContentText(bean.getMsg())
+                .setContentIntent(mainPendingIntent);
+
+        NotificationManager mNotifyManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        //发送通知
+        mNotifyManager.notify(3, builder.build());
     }
 
 }

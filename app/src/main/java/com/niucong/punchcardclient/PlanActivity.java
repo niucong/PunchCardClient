@@ -282,10 +282,11 @@ public class PlanActivity extends BasicActivity {
             @Override
             public void onSuccess(BasicBean model) {
                 if (model != null) {
-                    App.showToast("" + model.getMsg());
                     if (model.getCode() == 1) {
                         setResult(RESULT_OK);
                         finish();
+                    } else {
+                        App.showToast("" + model.getMsg());
                     }
                 } else {
                     App.showToast("接口错误" + (model == null));

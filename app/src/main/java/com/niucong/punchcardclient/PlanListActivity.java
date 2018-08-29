@@ -133,7 +133,6 @@ public class PlanListActivity extends BasicActivity implements BaseQuickAdapter.
             @Override
             public void onSuccess(PlanListBean model) {
                 if (model != null) {
-                    App.showToast("" + model.getMsg());
                     if (model.getCode() == 1) {
                         if (offset == 0) {
                             list.clear();
@@ -150,6 +149,8 @@ public class PlanListActivity extends BasicActivity implements BaseQuickAdapter.
                         planSrl.setRefreshing(false);
                         //禁止下拉刷新
                         planSrl.setEnabled(true);
+                    } else {
+                        App.showToast("" + model.getMsg());
                     }
                 } else {
                     App.showToast("接口错误" + (model == null));

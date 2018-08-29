@@ -113,7 +113,6 @@ public class SignListActivity extends BasicActivity implements BaseQuickAdapter.
             @Override
             public void onSuccess(SignListBean model) {
                 if (model != null) {
-                    App.showToast("" + model.getMsg());
                     if (model.getCode() == 1) {
                         if (offset == 0) {
                             list.clear();
@@ -130,6 +129,8 @@ public class SignListActivity extends BasicActivity implements BaseQuickAdapter.
                         signSrl.setRefreshing(false);
                         //禁止下拉刷新
                         signSrl.setEnabled(true);
+                    } else {
+                        App.showToast("" + model.getMsg());
                     }
                 } else {
                     App.showToast("接口错误" + (model == null));

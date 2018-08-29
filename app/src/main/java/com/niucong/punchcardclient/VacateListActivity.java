@@ -133,7 +133,6 @@ public class VacateListActivity extends BasicActivity implements BaseQuickAdapte
             @Override
             public void onSuccess(VacateListBean model) {
                 if (model != null) {
-                    App.showToast("" + model.getMsg());
                     if (model.getCode() == 1) {
                         if (offset == 0) {
                             list.clear();
@@ -150,6 +149,8 @@ public class VacateListActivity extends BasicActivity implements BaseQuickAdapte
                         vacateSrl.setRefreshing(false);
                         //禁止下拉刷新
                         vacateSrl.setEnabled(true);
+                    } else {
+                        App.showToast("" + model.getMsg());
                     }
                 } else {
                     App.showToast("接口错误" + (model == null));
