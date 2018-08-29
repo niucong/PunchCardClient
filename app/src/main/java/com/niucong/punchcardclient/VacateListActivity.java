@@ -21,10 +21,15 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.niucong.punchcardclient.adapter.VacateAdapter;
 import com.niucong.punchcardclient.app.App;
 import com.niucong.punchcardclient.net.ApiCallback;
+import com.niucong.punchcardclient.net.bean.BasicBean;
 import com.niucong.punchcardclient.net.bean.VacateListBean;
 import com.niucong.punchcardclient.net.db.VacateDB;
 import com.niucong.selectdatetime.view.NiftyDialogBuilder;
 import com.niucong.selectdatetime.view.wheel.DateSelectView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -59,6 +64,7 @@ public class VacateListActivity extends BasicActivity implements BaseQuickAdapte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vacate_list);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -86,6 +92,20 @@ public class VacateListActivity extends BasicActivity implements BaseQuickAdapte
 
         setAdapter();
         queryMembers();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(BasicBean bean) {
+        Log.d("VacateListActivity", "code=" + bean.getCode());
+        if (bean.getCode() == 1) {
+            onRefresh();
+        }
     }
 
     private void setAdapter() {
@@ -156,6 +176,8 @@ public class VacateListActivity extends BasicActivity implements BaseQuickAdapte
     public void onRefresh() {
         adapter.setEnableLoadMore(false);
         offset = 0;
+        startDate = null;
+        endDate = null;
         queryMembers();
     }
 
@@ -171,9 +193,7 @@ public class VacateListActivity extends BasicActivity implements BaseQuickAdapte
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == 1) {
-                adapter.setEnableLoadMore(false);
-                offset = 0;
-                queryMembers();
+                onRefresh();
             }
         }
     }
