@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * 课程计划
+ * 计划
  */
 public class PlanDB implements Parcelable {
 

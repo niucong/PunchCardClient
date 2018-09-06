@@ -1,0 +1,43 @@
+Starting a Gradle Daemon, 1 incompatible Daemon could not be reused, use --status for details
+:app:preBuild UP-TO-DATE
+:selectdatetime:preBuild UP-TO-DATE
+:selectdatetime:preDebugBuild UP-TO-DATE
+:selectdatetime:checkDebugManifest UP-TO-DATE
+:selectdatetime:processDebugManifest UP-TO-DATE
+:app:preDebugBuild UP-TO-DATE
+:selectdatetime:compileDebugAidl UP-TO-DATE
+:app:compileDebugAidl UP-TO-DATE
+:selectdatetime:packageDebugRenderscript NO-SOURCE
+:app:compileDebugRenderscript UP-TO-DATE
+:app:generateDebugResValues UP-TO-DATE
+:app:generateDebugResources UP-TO-DATE
+:selectdatetime:compileDebugRenderscript UP-TO-DATE
+:selectdatetime:generateDebugResValues UP-TO-DATE
+:selectdatetime:generateDebugResources UP-TO-DATE
+:selectdatetime:packageDebugResources UP-TO-DATE
+:app:mergeDebugResources UP-TO-DATE
+:app:transformDataBindingBaseClassLogWithDataBindingMergeGenClassesForDebug UP-TO-DATE
+:app:dataBindingGenBaseClassesDebug UP-TO-DATE
+:app:checkDebugManifest UP-TO-DATE
+:app:generateDebugBuildConfig UP-TO-DATE
+:app:prepareLintJar UP-TO-DATE
+:app:mainApkListPersistenceDebug UP-TO-DATE
+:app:createDebugCompatibleScreenManifests UP-TO-DATE
+:app:processDebugManifest
+:app:splitsDiscoveryTaskDebug UP-TO-DATE
+:selectdatetime:platformAttrExtractor UP-TO-DATE
+:selectdatetime:generateDebugRFile UP-TO-DATE
+:app:processDebugResources
+:app:generateDebugSources
+:selectdatetime:generateDebugBuildConfig UP-TO-DATE
+:selectdatetime:prepareLintJar UP-TO-DATE
+:selectdatetime:generateDebugSources UP-TO-DATE
+:selectdatetime:javaPreCompileDebug UP-TO-DATE
+:selectdatetime:compileDebugJavaWithJavac UP-TO-DATE
+:selectdatetime:processDebugJavaRes NO-SOURCE
+:selectdatetime:transformClassesAndResourcesWithPrepareIntermediateJarsForDebug UP-TO-DATE
+:app:dataBindingExportBuildInfoDebug UP-TO-DATE
+:app:javaPreCompileDebug UP-TO-DATE
+:app:transformDataBindingWithDataBindingMergeArtifactsForDebug UP-TO-DATE
+:app:compileDebugJavaWithJavac FAILED
+32 actionable tasks: 3 executed, 29 up-to-date
