@@ -11,7 +11,12 @@ import android.view.View;
 import com.niucong.punchcardclient.app.App;
 import com.niucong.punchcardclient.databinding.ActivityMainBinding;
 import com.niucong.punchcardclient.net.ApiCallback;
+import com.niucong.punchcardclient.net.bean.BasicBean;
 import com.niucong.punchcardclient.net.bean.SignBean;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,13 +41,29 @@ public class MainActivity extends BasicActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        EventBus.getDefault().register(this);
         updateTime();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
+        EventBus.getDefault().register(this);
         updateTime();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(BasicBean bean) {
+        Log.d("SignListActivity", "code=" + bean.getCode());
+        if (bean.getCode() == 2) {
+            updateTime();
+        }
     }
 
     private void updateTime() {

@@ -11,6 +11,7 @@ import android.util.Log;
 import com.alibaba.fastjson.JSON;
 import com.niucong.punchcardclient.PlanListActivity;
 import com.niucong.punchcardclient.R;
+import com.niucong.punchcardclient.SignListActivity;
 import com.niucong.punchcardclient.VacateListActivity;
 import com.niucong.punchcardclient.app.App;
 import com.niucong.punchcardclient.net.bean.BasicBean;
@@ -40,8 +41,10 @@ public class MyPushMessageReceiver extends BroadcastReceiver {
         Intent mainIntent;
         if (bean.getCode() == 0) {
             mainIntent = new Intent(context, VacateListActivity.class);
-        } else {
+        } else if (bean.getCode() == 1) {
             mainIntent = new Intent(context, PlanListActivity.class);
+        } else {
+            mainIntent = new Intent(context, SignListActivity.class);
         }
         PendingIntent mainPendingIntent = PendingIntent.getActivity(context, 0, mainIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         //创建 Notification.Builder 对象

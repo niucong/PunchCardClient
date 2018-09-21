@@ -20,10 +20,15 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.niucong.punchcardclient.adapter.SignAdapter;
 import com.niucong.punchcardclient.app.App;
 import com.niucong.punchcardclient.net.ApiCallback;
+import com.niucong.punchcardclient.net.bean.BasicBean;
 import com.niucong.punchcardclient.net.bean.SignListBean;
 import com.niucong.punchcardclient.net.db.SignDB;
 import com.niucong.selectdatetime.view.NiftyDialogBuilder;
 import com.niucong.selectdatetime.view.wheel.DateSelectView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -58,6 +63,7 @@ public class SignListActivity extends BasicActivity implements BaseQuickAdapter.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_list);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -85,6 +91,20 @@ public class SignListActivity extends BasicActivity implements BaseQuickAdapter.
 
         setAdapter();
         queryMembers();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(BasicBean bean) {
+        Log.d("SignListActivity", "code=" + bean.getCode());
+        if (bean.getCode() == 2) {
+            onRefresh();
+        }
     }
 
     private void setAdapter() {
