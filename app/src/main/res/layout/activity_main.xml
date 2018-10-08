@@ -33,23 +33,59 @@
                 android:textStyle="bold"/>
 
             <Button
-                android:id="@+id/main_sync"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginLeft="10dp"
-                android:onClick="@{handlers::onClickName}"
-                android:visibility="gone"
-                android:text="手动同步"
-                android:textSize="18dp"
-                android:textStyle="bold"/>
-
-            <Button
                 android:id="@+id/main_plan"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginLeft="10dp"
                 android:onClick="@{handlers::onClickName}"
                 android:text="查看计划"
+                android:textSize="18dp"
+                android:textStyle="bold"/>
+
+            <Button
+                android:id="@+id/main_project"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="10dp"
+                android:onClick="@{handlers::onClickName}"
+                android:text="查看项目"
+                android:textSize="18dp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/main_course"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:onClick="@{handlers::onClickName}"
+                android:text="课程表"
+                android:textSize="18dp"
+                android:textStyle="bold"/>
+
+            <Button
+                android:id="@+id/main_schedule"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="10dp"
+                android:onClick="@{handlers::onClickName}"
+                android:text="作息表"
+                android:textSize="18dp"
+                android:textStyle="bold"/>
+
+            <Button
+                android:id="@+id/main_calendar"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="10dp"
+                android:onClick="@{handlers::onClickName}"
+                android:text="校历"
                 android:textSize="18dp"
                 android:textStyle="bold"/>
         </LinearLayout>
@@ -89,7 +125,7 @@
                 android:text="人员管理"
                 android:textSize="18dp"
                 android:textStyle="bold"
-                android:visibility="gone"/>
+                android:visibility="invisible"/>
         </LinearLayout>
 
         <View

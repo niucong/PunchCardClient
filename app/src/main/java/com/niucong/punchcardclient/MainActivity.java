@@ -38,12 +38,12 @@ public class MainActivity extends BasicActivity {
         }
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-        updateTime();
-    }
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        EventBus.getDefault().register(this);
+//        updateTime();
+//    }
 
     @Override
     protected void onRestart() {
@@ -127,7 +127,13 @@ public class MainActivity extends BasicActivity {
                         }
                     });
                     break;
-                case R.id.main_sync:
+                case R.id.main_schedule:
+                    startActivity(new Intent(MainActivity.this, ScheduleActivity.class));
+                    break;
+                case R.id.main_calendar:
+                    startActivity(new Intent(MainActivity.this, CalendarActivity.class));
+                    break;
+                case R.id.main_project:
 
                     break;
                 case R.id.main_member:

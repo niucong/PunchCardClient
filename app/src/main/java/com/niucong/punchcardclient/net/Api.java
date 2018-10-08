@@ -1,9 +1,12 @@
 package com.niucong.punchcardclient.net;
 
 import com.niucong.punchcardclient.net.bean.BasicBean;
+import com.niucong.punchcardclient.net.bean.CalendarListBean;
+import com.niucong.punchcardclient.net.bean.CourseListBean;
 import com.niucong.punchcardclient.net.bean.LoginBean;
 import com.niucong.punchcardclient.net.bean.MemberListBean;
 import com.niucong.punchcardclient.net.bean.PlanListBean;
+import com.niucong.punchcardclient.net.bean.ScheduleListBean;
 import com.niucong.punchcardclient.net.bean.SignBean;
 import com.niucong.punchcardclient.net.bean.SignListBean;
 import com.niucong.punchcardclient.net.bean.VacateListBean;
@@ -46,5 +49,17 @@ public interface Api {
     @FormUrlEncoded
     @POST("planList")
     Observable<PlanListBean> planList(@FieldMap Map<String, String> fields);
+
+    @FormUrlEncoded
+    @POST("courseList")
+    Observable<CourseListBean> courseList(@FieldMap Map<String, String> fields);
+
+    @FormUrlEncoded
+    @POST("scheduleList")
+    Observable<ScheduleListBean> scheduleList(@FieldMap Map<String, String> fields);
+
+    @FormUrlEncoded
+    @POST("calendarList")
+    Observable<CalendarListBean> calendarList(@FieldMap Map<String, String> fields);
 
 }
