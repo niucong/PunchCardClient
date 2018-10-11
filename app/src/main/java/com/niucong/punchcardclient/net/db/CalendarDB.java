@@ -1,9 +1,11 @@
 package com.niucong.punchcardclient.net.db;
 
+import org.litepal.crud.LitePalSupport;
+
 /**
  * 校历表
  */
-public class CalendarDB {
+public class CalendarDB extends LitePalSupport {
 
     private int id;// 唯一主键
 

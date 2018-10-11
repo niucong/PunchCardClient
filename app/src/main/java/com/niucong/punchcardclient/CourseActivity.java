@@ -1,38 +1,53 @@
 package com.niucong.punchcardclient;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.MenuItem;
-import android.view.WindowManager;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
-import com.bin.david.form.core.SmartTable;
-import com.bin.david.form.data.column.Column;
-import com.bin.david.form.data.table.TableData;
-import com.bin.david.form.listener.OnColumnItemClickListener;
 import com.niucong.punchcardclient.app.App;
-import com.niucong.punchcardclient.net.ApiCallback;
-import com.niucong.punchcardclient.net.bean.ScheduleListBean;
-import com.niucong.punchcardclient.net.db.ScheduleDB;
-import com.niucong.punchcardclient.table.Course;
+import com.niucong.punchcardclient.net.bean.ParcelableMap;
+import com.niucong.punchcardclient.net.db.ClassTimeDB;
+import com.niucong.punchcardclient.net.db.CourseDB;
+
+import org.litepal.LitePal;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class CourseActivity extends BasicActivity {
 
-    @BindView(R.id.schedule_table)
-    SmartTable<Course> table;
+    @BindView(R.id.course_name)
+    EditText courseName;
+    @BindView(R.id.course_teacher)
+    EditText courseTeacher;
+    @BindView(R.id.course_room)
+    EditText courseRoom;
+    @BindView(R.id.vatace_button)
+    Button vataceButton;
+    @BindView(R.id.course_time)
+    TextView courseTime;
+
+    private CourseDB courseDB;
+    //    private ArrayList<Integer> selectList;
+    private Map<Long, ClassTimeDB> selectMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_schedule);
+        setContentView(R.layout.activity_course);
         ButterKnife.bind(this);
 
         ActionBar actionBar = getSupportActionBar();
@@ -41,94 +56,19 @@ public class CourseActivity extends BasicActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        WindowManager wm = this.getWindowManager();
-        int screenWith = wm.getDefaultDisplay().getWidth();
-        table.getConfig().setMinTableWidth(screenWith); //设置最小宽度 屏幕宽度
-        getScheduleList();
-    }
+        courseDB = getIntent().getParcelableExtra("courseDB");
+        if (courseDB != null) {
+            courseName.setText(courseDB.getCourseName());
+            courseTeacher.setText(courseDB.getTeacherName());
+            courseRoom.setText(courseDB.getRoomName());
 
-    private void getScheduleList() {
-        Map<String, String> fields = new HashMap<>();
-        Log.d("ScheduleActivity", "fields=" + fields.toString());
-        addSubscription(getApi().scheduleList(fields), new ApiCallback<ScheduleListBean>() {
-            @Override
-            public void onSuccess(ScheduleListBean model) {
-                if (model != null) {
-                    if (model.getCode() == 1) {
-                        final List<Course> courses = new ArrayList<>();
-                        final List<ScheduleDB> list = model.getList();
-                        for (ScheduleDB scheduleDB : list) {
-                            try {
-                                Integer.valueOf(scheduleDB.getSectionName());
-                                courses.add(new Course(scheduleDB.getTimeRank(), scheduleDB.getSectionName(),
-                                        "", "", "", "", "", "", ""));
-                            } catch (NumberFormatException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        Column<String> timeRank = new Column<>("时段", "timeRank");
-                        timeRank.setAutoMerge(true);
-                        Column<String> sectionName = new Column<>("节次", "sectionName");
-                        sectionName.setOnColumnItemClickListener(new OnColumnItemClickListener<String>() {
-                            @Override
-                            public void onClick(Column<String> column, String value, String s, int position) {
-                                for (ScheduleDB scheduleDB : list) {
-                                    if (scheduleDB.getSectionName().equals(value)) {
-                                        App.showToast("第" + value + "节课 " + scheduleDB.getTime());
-                                        break;
-                                    }
-                                }
-                            }
-                        });
-                        Column<String> monday = new Column<>("一", "monday");
-                        setColumn(monday);
-                        Column<String> tuesday = new Column<>("二", "tuesday");
-                        setColumn(tuesday);
-                        Column<String> wednesday = new Column<>("三", "wednesday");
-                        setColumn(wednesday);
-                        Column<String> thursday = new Column<>("四", "thursday");
-                        setColumn(thursday);
-                        Column<String> friday = new Column<>("五", "friday");
-                        setColumn(friday);
-                        Column<String> saturday = new Column<>("六", "saturday");
-                        setColumn(saturday);
-                        Column<String> sunday = new Column<>("日", "sunday");
-                        setColumn(sunday);
-
-                        TableData<Course> tableData = new TableData<>("校历", courses, timeRank, sectionName,
-                                monday, tuesday, wednesday, thursday, friday, saturday, sunday);
-                        table.setTableData(tableData);
-                        table.getConfig().setShowTableTitle(false);
-                        table.setZoom(true, 2, 0.2f);
-                    } else {
-                        App.showToast("" + model.getMsg());
-                    }
-                } else {
-                    App.showToast("接口错误" + (model == null));
-                }
+            selectMap = new HashMap<>();
+            List<ClassTimeDB> timeDBS = LitePal.where("courseId = ?", "" + courseDB.getId()).find(ClassTimeDB.class);
+            for (ClassTimeDB timeDB : timeDBS) {
+                selectMap.put(timeDB.getId(), timeDB);
             }
-
-            @Override
-            public void onFinish() {
-
-            }
-
-            @Override
-            public void onFailure(String msg) {
-                App.showToast("请求失败");
-            }
-        });
-    }
-
-    private void setColumn(Column<String> column) {
-        column.setAutoMerge(true);
-        column.setOnColumnItemClickListener(new OnColumnItemClickListener<String>() {
-            @Override
-            public void onClick(Column<String> column, String value, String s, int position) {
-                App.showToast(value);
-            }
-        });
+            setCourseTime();
+        }
     }
 
     @Override
@@ -142,4 +82,86 @@ public class CourseActivity extends BasicActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @OnClick({R.id.course_time, R.id.vatace_button})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.course_time:
+                if (selectMap == null) {
+                    selectMap = new HashMap<>();
+                }
+                ParcelableMap sMap = new ParcelableMap();
+                sMap.setMap(selectMap);
+                Intent intent = new Intent(this, SelectClassTimeActivity.class).putExtra("sMap", sMap);
+                if (courseDB != null) {
+                    intent.putExtra("courseId", courseDB.getId());
+                }
+                startActivityForResult(intent, 0);
+                break;
+            case R.id.vatace_button:
+                String courseNameStr = courseName.getText().toString();
+                String courseTeacherStr = courseTeacher.getText().toString();
+                String courseRoomStr = courseRoom.getText().toString();
+                if (TextUtils.isEmpty(courseNameStr)) {
+                    App.showToast("课程名称不能为空");
+                    return;
+                }
+                if (selectMap == null || selectMap.isEmpty()) {
+                    App.showToast("请选择上课时间");
+                    return;
+                }
+                if (courseDB == null) {
+                    courseDB = new CourseDB();
+                }
+                courseDB.setCourseName(courseNameStr);
+                courseDB.setTeacherName(courseTeacherStr);
+                courseDB.setRoomName(courseRoomStr);
+
+                if (courseDB.getId() == 0) {
+                    courseDB.save();
+                    App.showToast("保存成功");
+                } else {
+                    courseDB.update(courseDB.getId());
+                    App.showToast("修改成功");
+                }
+                for (ClassTimeDB timeDB : selectMap.values()) {
+                    timeDB.setCourseId(courseDB.getId());
+                    timeDB.update(timeDB.getId());
+                }
+                finish();
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == 0) {
+            ParcelableMap sMap = data.getParcelableExtra("sMap");
+            selectMap = sMap.getMap();
+            setCourseTime();
+        }
+    }
+
+    private void setCourseTime() {
+        String cTime = "";
+        String[] weeks = {"星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"};
+        for (String week : weeks) {
+            List<Integer> sectionName = new ArrayList<>();
+            for (Map.Entry<Long, ClassTimeDB> dbEntry : selectMap.entrySet()) {
+                if (week.equals(dbEntry.getValue().getWeekDay())) {
+                    sectionName.add(Integer.valueOf(dbEntry.getValue().getSectionName()));
+                }
+            }
+            if (!sectionName.isEmpty()) {
+                cTime += week + "：";
+                Collections.sort(sectionName);
+                for (int s : sectionName) {
+                    cTime += s + "/";
+                }
+                cTime = cTime.substring(0, cTime.length() - 1);
+                cTime += "\n";
+            }
+        }
+        courseTime.setText(cTime);
+    }
 }

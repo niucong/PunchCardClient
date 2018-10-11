@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="45dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="星期一"/>
+
+            <GridView
+                android:id="@+id/select_class_time_monday"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:horizontalSpacing="5dp"
+                android:verticalSpacing="5dp"
+                android:numColumns="7"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="星期二"/>
+
+            <GridView
+                android:id="@+id/select_class_time_tuesday"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:horizontalSpacing="5dp"
+                android:verticalSpacing="5dp"
+                android:numColumns="7"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="星期三"/>
+
+            <GridView
+                android:id="@+id/select_class_time_wednesday"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:horizontalSpacing="5dp"
+                android:verticalSpacing="5dp"
+                android:numColumns="7"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="星期四"/>
+
+            <GridView
+                android:id="@+id/select_class_time_thursday"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:horizontalSpacing="5dp"
+                android:verticalSpacing="5dp"
+                android:numColumns="7"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="星期五"/>
+
+            <GridView
+                android:id="@+id/select_class_time_firday"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:horizontalSpacing="5dp"
+                android:verticalSpacing="5dp"
+                android:numColumns="7"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="星期六"/>
+
+            <GridView
+                android:id="@+id/select_class_time_saturday"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:horizontalSpacing="5dp"
+                android:verticalSpacing="5dp"
+                android:numColumns="7"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="星期日"/>
+
+            <GridView
+                android:id="@+id/select_class_time_sunday"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:horizontalSpacing="5dp"
+                android:verticalSpacing="5dp"
+                android:numColumns="7"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/select_class_time_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="保存"
+        android:textSize="18dp"/>
+</RelativeLayout>

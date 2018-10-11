@@ -3,6 +3,7 @@ package com.niucong.punchcardclient;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.bin.david.form.core.SmartTable;
@@ -11,6 +12,8 @@ import com.niucong.punchcardclient.net.ApiCallback;
 import com.niucong.punchcardclient.net.bean.CalendarListBean;
 import com.niucong.punchcardclient.net.db.CalendarDB;
 import com.niucong.punchcardclient.table.Calendar;
+
+import org.litepal.LitePal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +40,20 @@ public class CalendarActivity extends BasicActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        getCalendarList();
+        refreshCalendarList();
+    }
+
+    private void refreshCalendarList() {
+        final List<Calendar> calendars = new ArrayList<>();
+        for (CalendarDB calendarDB : LitePal.findAll(CalendarDB.class)) {
+            calendars.add(new Calendar(calendarDB.getSession(), calendarDB.getWeekly(), calendarDB.getMonth(),
+                    calendarDB.getMonday(), calendarDB.getTuesday(), calendarDB.getWednesday(), calendarDB.getThursday(),
+                    calendarDB.getFriday(), calendarDB.getSaturday(), calendarDB.getSunday()));
+        }
+
+        table.setData(calendars);
+        table.getConfig().setShowTableTitle(false);
+        table.setZoom(true, 2, 0.2f);
     }
 
     private void getCalendarList() {
@@ -48,16 +64,12 @@ public class CalendarActivity extends BasicActivity {
             public void onSuccess(CalendarListBean model) {
                 if (model != null) {
                     if (model.getCode() == 1) {
-                        final List<Calendar> calendars = new ArrayList<>();
-                        for (CalendarDB calendarDB : model.getList()) {
-                            calendars.add(new Calendar(calendarDB.getSession(), calendarDB.getWeekly(), calendarDB.getMonth(),
-                                    calendarDB.getMonday(), calendarDB.getTuesday(), calendarDB.getWednesday(), calendarDB.getThursday(),
-                                    calendarDB.getFriday(), calendarDB.getSaturday(), calendarDB.getSunday()));
+                        if (LitePal.count(CalendarDB.class) > 0) {
+                            LitePal.deleteAll(CalendarDB.class);
                         }
 
-                        table.setData(calendars);
-                        table.getConfig().setShowTableTitle(false);
-                        table.setZoom(true, 2, 0.2f);
+                        LitePal.saveAll(model.getList());
+                        refreshCalendarList();
                     } else {
                         App.showToast("" + model.getMsg());
                     }
@@ -79,11 +91,20 @@ public class CalendarActivity extends BasicActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        this.getMenuInflater().inflate(R.menu.menu_refresh, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
         switch (item.getItemId()) {
             case android.R.id.home:
                 this.finish();
+                break;
+            case R.id.action_refresh:
+                getCalendarList();
                 break;
         }
         return super.onOptionsItemSelected(item);

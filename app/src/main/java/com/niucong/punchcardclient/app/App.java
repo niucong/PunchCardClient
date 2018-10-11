@@ -6,6 +6,8 @@ import android.widget.Toast;
 
 import com.niucong.punchcardclient.util.SharedPrefUtil;
 
+import org.litepal.LitePal;
+
 import cn.bmob.push.BmobPush;
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobInstallation;
@@ -24,6 +26,7 @@ public class App extends Application {
         super.onCreate();
         app = this;
         sp = new SharedPrefUtil(app, "PunchCard");
+        LitePal.initialize(this);
 
         //TODO 集成：1.4、初始化数据服务SDK、初始化设备信息并启动推送服务
 // 初始化BmobSDK

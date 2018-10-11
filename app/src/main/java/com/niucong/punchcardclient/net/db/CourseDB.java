@@ -1,23 +1,23 @@
 package com.niucong.punchcardclient.net.db;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import org.litepal.crud.LitePalSupport;
+
 /**
  * 课程表
  */
-public class CourseDB {
+public class CourseDB extends LitePalSupport implements Parcelable {
 
     private long id;// 唯一主键
 
     private int memberId;//  人员Id
-    private String memberName;// 人员名称
     private String courseName;// 课程名称
+    private String teacherName;// 老师名称
+    private String roomName;// 上课地点
 
-    private String startYear;// 学年开始
-    private String endYear;// 学年结束
-    private String sessionName;// 第一学期、寒假、第二学期、第三学期、暑假
-    private int start;// 开始周
-    private int end;// 结束周
-    private int[] weekDays;// 周几
-    private String[] sectionName;// 节次名称
+    private long[] classTimeDBs;// 上课时间
 
     public long getId() {
         return id;
@@ -35,14 +35,6 @@ public class CourseDB {
         this.memberId = memberId;
     }
 
-    public String getMemberName() {
-        return memberName;
-    }
-
-    public void setMemberName(String memberName) {
-        this.memberName = memberName;
-    }
-
     public String getCourseName() {
         return courseName;
     }
@@ -51,59 +43,66 @@ public class CourseDB {
         this.courseName = courseName;
     }
 
-    public String getStartYear() {
-        return startYear;
+    public String getTeacherName() {
+        return teacherName;
     }
 
-    public void setStartYear(String startYear) {
-        this.startYear = startYear;
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
     }
 
-    public String getEndYear() {
-        return endYear;
+    public String getRoomName() {
+        return roomName;
     }
 
-    public void setEndYear(String endYear) {
-        this.endYear = endYear;
+    public long[] getClassTimeDBs() {
+        return classTimeDBs;
     }
 
-    public String getSessionName() {
-        return sessionName;
+    public void setClassTimeDBs(long[] classTimeDBs) {
+        this.classTimeDBs = classTimeDBs;
     }
 
-    public void setSessionName(String sessionName) {
-        this.sessionName = sessionName;
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
     }
 
-    public int getStart() {
-        return start;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public void setStart(int start) {
-        this.start = start;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.id);
+        dest.writeInt(this.memberId);
+        dest.writeString(this.courseName);
+        dest.writeString(this.teacherName);
+        dest.writeString(this.roomName);
+        dest.writeLongArray(this.classTimeDBs);
     }
 
-    public int getEnd() {
-        return end;
+    public CourseDB() {
     }
 
-    public void setEnd(int end) {
-        this.end = end;
+    protected CourseDB(Parcel in) {
+        this.id = in.readLong();
+        this.memberId = in.readInt();
+        this.courseName = in.readString();
+        this.teacherName = in.readString();
+        this.roomName = in.readString();
+        this.classTimeDBs = in.createLongArray();
     }
 
-    public int[] getWeekDays() {
-        return weekDays;
-    }
+    public static final Creator<CourseDB> CREATOR = new Creator<CourseDB>() {
+        @Override
+        public CourseDB createFromParcel(Parcel source) {
+            return new CourseDB(source);
+        }
 
-    public void setWeekDays(int[] weekDays) {
-        this.weekDays = weekDays;
-    }
-
-    public String[] getSectionName() {
-        return sectionName;
-    }
-
-    public void setSectionName(String[] sectionName) {
-        this.sectionName = sectionName;
-    }
+        @Override
+        public CourseDB[] newArray(int size) {
+            return new CourseDB[size];
+        }
+    };
 }

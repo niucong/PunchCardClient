@@ -131,7 +131,7 @@ public class MainActivity extends BasicActivity {
                     startActivity(new Intent(MainActivity.this, ScheduleActivity.class));
                     break;
                 case R.id.main_course:
-                    startActivity(new Intent(MainActivity.this, CourseActivity.class));
+                    startActivity(new Intent(MainActivity.this, CourseListActivity.class));
                     break;
                 case R.id.main_calendar:
                     startActivity(new Intent(MainActivity.this, CalendarActivity.class));

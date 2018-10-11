@@ -1,9 +1,11 @@
 package com.niucong.punchcardclient.net.db;
 
+import org.litepal.crud.LitePalSupport;
+
 /**
  * 作息表
  */
-public class ScheduleDB {
+public class ScheduleDB extends LitePalSupport {
 
     private int id;// 唯一主键
 

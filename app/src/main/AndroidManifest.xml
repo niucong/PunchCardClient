@@ -69,8 +69,14 @@
             android:name=".CalendarActivity"
             android:label="校历"/>
         <activity
+            android:name=".CourseListActivity"
+            android:label="课程表"/>
+        <activity
             android:name=".CourseActivity"
             android:label="课程表"/>
+        <activity
+            android:name=".SelectClassTimeActivity"
+            android:label="选择上课时间"/>
 
         <!--TODO 集成：1.2、添加推送所需要的服务和广播-->
         <service
