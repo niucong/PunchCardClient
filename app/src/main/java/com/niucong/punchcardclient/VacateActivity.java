@@ -16,9 +16,9 @@ import com.niucong.punchcardclient.dialog.DateSelectDialog;
 import com.niucong.punchcardclient.net.ApiCallback;
 import com.niucong.punchcardclient.net.bean.BasicBean;
 import com.niucong.punchcardclient.net.db.VacateDB;
+import com.niucong.punchcardclient.util.ConstantUtil;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,8 +26,6 @@ import java.util.Map;
 public class VacateActivity extends BasicActivity {
 
     ActivityVacateBinding binding;
-
-    SimpleDateFormat YMDHM = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     private VacateDB db;
 
@@ -58,8 +56,8 @@ public class VacateActivity extends BasicActivity {
             binding.vataceCauseTv.setText(db.getCause());
             binding.vataceCauseTv.setVisibility(View.VISIBLE);
             binding.vataceCause.setVisibility(View.GONE);
-            binding.vataceStart.setText(YMDHM.format(new Date(db.getStartTime())));
-            binding.vataceEnd.setText(YMDHM.format(new Date(db.getEndTime())));
+            binding.vataceStart.setText(ConstantUtil.YMDHM.format(new Date(db.getStartTime())));
+            binding.vataceEnd.setText(ConstantUtil.YMDHM.format(new Date(db.getEndTime())));
 
             binding.vataceStart.setTextColor(Color.GRAY);
             binding.vataceEnd.setTextColor(Color.GRAY);
@@ -121,8 +119,8 @@ public class VacateActivity extends BasicActivity {
                 return;
             }
             try {
-                final long startDate = YMDHM.parse(start).getTime();
-                final long endDate = YMDHM.parse(end).getTime();
+                final long startDate = ConstantUtil.YMDHM.parse(start).getTime();
+                final long endDate = ConstantUtil.YMDHM.parse(end).getTime();
                 if (startDate != 0 && endDate != 0) {
                     if (startDate > endDate) {
                         App.showToast("开始时间不能晚于结束时间");

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +14,7 @@ import android.widget.TextView;
 
 import com.niucong.punchcardclient.net.bean.ParcelableMap;
 import com.niucong.punchcardclient.net.db.ClassTimeDB;
+import com.niucong.punchcardclient.util.ConstantUtil;
 
 import org.litepal.LitePal;
 
@@ -62,13 +62,13 @@ public class SelectClassTimeActivity extends BasicActivity {
         sMap = getIntent().getParcelableExtra("sMap");
         selectMap = sMap.getMap();
 
-        selectClassTimeMonday.setAdapter(new TextAdapter(this, LitePal.where("weekDay = ?", "星期一").find(ClassTimeDB.class)));
-        selectClassTimeTuesday.setAdapter(new TextAdapter(this, LitePal.where("weekDay = ?", "星期二").find(ClassTimeDB.class)));
-        selectClassTimeWednesday.setAdapter(new TextAdapter(this, LitePal.where("weekDay = ?", "星期三").find(ClassTimeDB.class)));
-        selectClassTimeThursday.setAdapter(new TextAdapter(this, LitePal.where("weekDay = ?", "星期四").find(ClassTimeDB.class)));
-        selectClassTimeFirday.setAdapter(new TextAdapter(this, LitePal.where("weekDay = ?", "星期五").find(ClassTimeDB.class)));
-        selectClassTimeSaturday.setAdapter(new TextAdapter(this, LitePal.where("weekDay = ?", "星期六").find(ClassTimeDB.class)));
-        selectClassTimeSunday.setAdapter(new TextAdapter(this, LitePal.where("weekDay = ?", "星期日").find(ClassTimeDB.class)));
+        selectClassTimeMonday.setAdapter(new TextAdapter(this, LitePal.where("weekDay = ?", ConstantUtil.WEEKS[0]).find(ClassTimeDB.class)));
+        selectClassTimeTuesday.setAdapter(new TextAdapter(this, LitePal.where("weekDay = ?", ConstantUtil.WEEKS[1]).find(ClassTimeDB.class)));
+        selectClassTimeWednesday.setAdapter(new TextAdapter(this, LitePal.where("weekDay = ?", ConstantUtil.WEEKS[2]).find(ClassTimeDB.class)));
+        selectClassTimeThursday.setAdapter(new TextAdapter(this, LitePal.where("weekDay = ?", ConstantUtil.WEEKS[3]).find(ClassTimeDB.class)));
+        selectClassTimeFirday.setAdapter(new TextAdapter(this, LitePal.where("weekDay = ?", ConstantUtil.WEEKS[4]).find(ClassTimeDB.class)));
+        selectClassTimeSaturday.setAdapter(new TextAdapter(this, LitePal.where("weekDay = ?", ConstantUtil.WEEKS[5]).find(ClassTimeDB.class)));
+        selectClassTimeSunday.setAdapter(new TextAdapter(this, LitePal.where("weekDay = ?", ConstantUtil.WEEKS[6]).find(ClassTimeDB.class)));
     }
 
     class TextAdapter extends BaseAdapter {

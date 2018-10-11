@@ -17,6 +17,7 @@ import com.niucong.punchcardclient.net.db.ClassTimeDB;
 import com.niucong.punchcardclient.net.db.CourseDB;
 import com.niucong.punchcardclient.net.db.ScheduleDB;
 import com.niucong.punchcardclient.table.Course;
+import com.niucong.punchcardclient.util.ConstantUtil;
 
 import org.litepal.LitePal;
 
@@ -60,13 +61,13 @@ public class CourseListActivity extends BasicActivity {
                 String sectionName = scheduleDB.getSectionName();
                 Integer.valueOf(sectionName);
                 courses.add(new Course(scheduleDB.getTimeRank(), sectionName,
-                        getCourseStr("星期一", sectionName),
-                        getCourseStr("星期二", sectionName),
-                        getCourseStr("星期三", sectionName),
-                        getCourseStr("星期四", sectionName),
-                        getCourseStr("星期五", sectionName),
-                        getCourseStr("星期六", sectionName),
-                        getCourseStr("星期日", sectionName)));
+                        getCourseStr(ConstantUtil.WEEKS[0], sectionName),
+                        getCourseStr(ConstantUtil.WEEKS[1], sectionName),
+                        getCourseStr(ConstantUtil.WEEKS[2], sectionName),
+                        getCourseStr(ConstantUtil.WEEKS[3], sectionName),
+                        getCourseStr(ConstantUtil.WEEKS[4], sectionName),
+                        getCourseStr(ConstantUtil.WEEKS[5], sectionName),
+                        getCourseStr(ConstantUtil.WEEKS[6], sectionName)));
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
@@ -88,14 +89,14 @@ public class CourseListActivity extends BasicActivity {
             }
         });
 
-        TableData<Course> tableData = new TableData<>("校历", courses, timeRank, sectionName,
-                createWeekColumn("星期一", "monday"),
-                createWeekColumn("星期二", "tuesday"),
-                createWeekColumn("星期三", "wednesday"),
-                createWeekColumn("星期四", "thursday"),
-                createWeekColumn("星期五", "friday"),
-                createWeekColumn("星期六", "saturday"),
-                createWeekColumn("星期日", "sunday"));
+        TableData<Course> tableData = new TableData<>("课程表", courses, timeRank, sectionName,
+                createWeekColumn(ConstantUtil.WEEKS[0], "monday"),
+                createWeekColumn(ConstantUtil.WEEKS[1], "tuesday"),
+                createWeekColumn(ConstantUtil.WEEKS[2], "wednesday"),
+                createWeekColumn(ConstantUtil.WEEKS[3], "thursday"),
+                createWeekColumn(ConstantUtil.WEEKS[4], "friday"),
+                createWeekColumn(ConstantUtil.WEEKS[5], "saturday"),
+                createWeekColumn(ConstantUtil.WEEKS[6], "sunday"));
         table.setTableData(tableData);
         table.getConfig().setShowTableTitle(false);
         table.setZoom(true, 2, 0.2f);

@@ -14,6 +14,7 @@ import com.niucong.punchcardclient.app.App;
 import com.niucong.punchcardclient.net.bean.ParcelableMap;
 import com.niucong.punchcardclient.net.db.ClassTimeDB;
 import com.niucong.punchcardclient.net.db.CourseDB;
+import com.niucong.punchcardclient.util.ConstantUtil;
 
 import org.litepal.LitePal;
 
@@ -144,8 +145,7 @@ public class CourseActivity extends BasicActivity {
 
     private void setCourseTime() {
         String cTime = "";
-        String[] weeks = {"星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"};
-        for (String week : weeks) {
+        for (String week : ConstantUtil.WEEKS) {
             List<Integer> sectionName = new ArrayList<>();
             for (Map.Entry<Long, ClassTimeDB> dbEntry : selectMap.entrySet()) {
                 if (week.equals(dbEntry.getValue().getWeekDay())) {

@@ -14,15 +14,14 @@ import com.niucong.punchcardclient.PlanActivity;
 import com.niucong.punchcardclient.R;
 import com.niucong.punchcardclient.net.db.MemberDB;
 import com.niucong.punchcardclient.net.db.PlanDB;
+import com.niucong.punchcardclient.util.ConstantUtil;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 public class PlanAdapter extends BaseQuickAdapter<PlanDB, BaseViewHolder> {
 
     private Context context;
-    SimpleDateFormat YMDHM = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     /**
      * @param layoutResId
@@ -38,13 +37,13 @@ public class PlanAdapter extends BaseQuickAdapter<PlanDB, BaseViewHolder> {
         final int position = helper.getLayoutPosition();
         helper.setText(R.id.item_plan_num, (position + 1) + "");
         helper.setText(R.id.item_plan_name, db.getName());
-        helper.setText(R.id.item_plan_starttime, "起：" + YMDHM.format(new Date(db.getStartTime())));
-        helper.setText(R.id.item_plan_endtime, "止：" + YMDHM.format(new Date(db.getEndTime())));
+        helper.setText(R.id.item_plan_starttime, "起：" + ConstantUtil.YMDHM.format(new Date(db.getStartTime())));
+        helper.setText(R.id.item_plan_endtime, "止：" + ConstantUtil.YMDHM.format(new Date(db.getEndTime())));
         helper.setText(R.id.item_plan_creator, "创建者：" + db.getCreatorName());
-        helper.setText(R.id.item_plan_creattime, YMDHM.format(new Date(db.getCreateTime())));
+        helper.setText(R.id.item_plan_creattime, ConstantUtil.YMDHM.format(new Date(db.getCreateTime())));
 
         if (db.getEditTime() > 0) {
-            helper.setText(R.id.item_plan_edittime, "修改时间：" + YMDHM.format(new Date(db.getEditTime())));
+            helper.setText(R.id.item_plan_edittime, "修改时间：" + ConstantUtil.YMDHM.format(new Date(db.getEditTime())));
             helper.setGone(R.id.item_plan_edittime, true);
         } else {
             helper.setGone(R.id.item_plan_edittime, false);

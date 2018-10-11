@@ -22,9 +22,9 @@ import com.niucong.punchcardclient.net.bean.BasicBean;
 import com.niucong.punchcardclient.net.bean.MemberListBean;
 import com.niucong.punchcardclient.net.db.MemberDB;
 import com.niucong.punchcardclient.net.db.PlanDB;
+import com.niucong.punchcardclient.util.ConstantUtil;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -33,8 +33,6 @@ import java.util.Map;
 public class PlanActivity extends BasicActivity {
 
     ActivityPlanBinding binding;
-
-    SimpleDateFormat YMDHM = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     private PlanDB db;
 
@@ -59,7 +57,7 @@ public class PlanActivity extends BasicActivity {
             binding.planCreator.setVisibility(View.VISIBLE);
             binding.planCreator.setText("创建者：" + db.getCreatorName());
             binding.planCreate.setVisibility(View.VISIBLE);
-            binding.planCreate.setText("创建时间：" + YMDHM.format(new Date(db.getCreateTime())));
+            binding.planCreate.setText("创建时间：" + ConstantUtil.YMDHM.format(new Date(db.getCreateTime())));
 
             String names = "";
             Log.d("PlanAdapter", "members=" + db.getMembers());
@@ -80,12 +78,12 @@ public class PlanActivity extends BasicActivity {
                 binding.planMembersLl.setVisibility(View.GONE);
             }
 
-            binding.planStart.setText(YMDHM.format(new Date(db.getStartTime())));
-            binding.planEnd.setText(YMDHM.format(new Date(db.getEndTime())));
+            binding.planStart.setText(ConstantUtil.YMDHM.format(new Date(db.getStartTime())));
+            binding.planEnd.setText(ConstantUtil.YMDHM.format(new Date(db.getEndTime())));
 
             if (db.getEditTime() > 0) {
                 binding.planEdit.setVisibility(View.VISIBLE);
-                binding.planEdit.setText("修改时间：" + YMDHM.format(new Date(db.getEditTime())));
+                binding.planEdit.setText("修改时间：" + ConstantUtil.YMDHM.format(new Date(db.getEditTime())));
             }
 
             binding.planStatusLl.setVisibility(View.VISIBLE);
@@ -241,8 +239,8 @@ public class PlanActivity extends BasicActivity {
                 return;
             }
             try {
-                final long startDate = YMDHM.parse(start).getTime();
-                final long endDate = YMDHM.parse(end).getTime();
+                final long startDate = ConstantUtil.YMDHM.parse(start).getTime();
+                final long endDate = ConstantUtil.YMDHM.parse(end).getTime();
                 if (startDate != 0 && endDate != 0) {
                     if (startDate > endDate) {
                         App.showToast("开始时间不能晚于结束时间");
