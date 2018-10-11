@@ -43,7 +43,7 @@ public class SelectClassTimeActivity extends BasicActivity {
     GridView selectClassTimeSunday;
 
     private long courseId;// 课程ID
-    private Map<Long, ClassTimeDB> selectMap;
+    private Map<Integer, ClassTimeDB> selectMap;
     private ParcelableMap sMap;
 
     @Override

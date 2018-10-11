@@ -47,6 +47,7 @@ public class CourseListActivity extends BasicActivity {
         WindowManager wm = this.getWindowManager();
         int screenWith = wm.getDefaultDisplay().getWidth();
         table.getConfig().setMinTableWidth(screenWith); //设置最小宽度 屏幕宽度
+
         createCourses();
     }
 
@@ -118,11 +119,19 @@ public class CourseListActivity extends BasicActivity {
                 Log.d("CourseActivity", "column=" + column.getColumnName());
                 Log.d("CourseActivity", "position=" + (position + 1));
                 App.showToast(value);
-                startActivity(new Intent(CourseListActivity.this, CourseActivity.class)
-                        .putExtra("courseDB", queryCourseDB(column.getColumnName(), (position + 1) + "")));
+                startActivityForResult(new Intent(CourseListActivity.this, CourseActivity.class)
+                        .putExtra("courseDB", queryCourseDB(column.getColumnName(), (position + 1) + "")), 0);
             }
         });
         return column;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == 0) {
+            createCourses();
+        }
     }
 
     /**
@@ -138,10 +147,10 @@ public class CourseListActivity extends BasicActivity {
         if (courseDB != null) {
             monday += courseDB.getCourseName();
             if (!TextUtils.isEmpty(courseDB.getRoomName())) {
-                monday += "@" + courseDB.getRoomName();
+                monday += "\n@" + courseDB.getRoomName();
             }
             if (!TextUtils.isEmpty(courseDB.getTeacherName())) {
-                monday += "@" + courseDB.getTeacherName();
+                monday += "\n@" + courseDB.getTeacherName();
             }
         }
         return monday;

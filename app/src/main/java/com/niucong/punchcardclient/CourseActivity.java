@@ -1,8 +1,11 @@
 package com.niucong.punchcardclient;
 
+import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,14 +39,16 @@ public class CourseActivity extends BasicActivity {
     EditText courseTeacher;
     @BindView(R.id.course_room)
     EditText courseRoom;
-    @BindView(R.id.vatace_button)
-    Button vataceButton;
     @BindView(R.id.course_time)
     TextView courseTime;
+    @BindView(R.id.course_delete)
+    Button courseDelete;
+    @BindView(R.id.course_button)
+    Button courseButton;
 
     private CourseDB courseDB;
     //    private ArrayList<Integer> selectList;
-    private Map<Long, ClassTimeDB> selectMap;
+    private Map<Integer, ClassTimeDB> selectMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +74,9 @@ public class CourseActivity extends BasicActivity {
                 selectMap.put(timeDB.getId(), timeDB);
             }
             setCourseTime();
+
+            courseButton.setText("修改");
+            courseDelete.setVisibility(View.VISIBLE);
         }
     }
 
@@ -83,7 +91,7 @@ public class CourseActivity extends BasicActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @OnClick({R.id.course_time, R.id.vatace_button})
+    @OnClick({R.id.course_time, R.id.course_delete, R.id.course_button})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.course_time:
@@ -98,7 +106,33 @@ public class CourseActivity extends BasicActivity {
                 }
                 startActivityForResult(intent, 0);
                 break;
-            case R.id.vatace_button:
+            case R.id.course_delete:
+                AlertDialog dialog = new AlertDialog.Builder(this)
+                        .setIcon(R.mipmap.ic_launcher)//设置标题的图片
+                        .setTitle("删除提醒")//设置对话框的标题
+                        .setMessage("确定要删除该课程吗？")//设置对话框的内容
+                        //设置对话框的按钮
+                        .setNegativeButton("取消", null)
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                for (ClassTimeDB timeDB : selectMap.values()) {
+//                                    timeDB.setCourseId(0);
+//                                    timeDB.setToDefault("timeDB");
+//                                    timeDB.update(timeDB.getId()); // 居然不行，挺诡异的
+
+                                    ContentValues values = new ContentValues();
+                                    values.put("courseId", "0");
+                                    LitePal.update(ClassTimeDB.class, values, timeDB.getId());
+                                }
+                                LitePal.delete(CourseDB.class, courseDB.getId());
+                                setResult(RESULT_OK);
+                                finish();
+                            }
+                        }).create();
+                dialog.show();
+                break;
+            case R.id.course_button:
                 String courseNameStr = courseName.getText().toString();
                 String courseTeacherStr = courseTeacher.getText().toString();
                 String courseRoomStr = courseRoom.getText().toString();
@@ -128,6 +162,7 @@ public class CourseActivity extends BasicActivity {
                     timeDB.setCourseId(courseDB.getId());
                     timeDB.update(timeDB.getId());
                 }
+                setResult(RESULT_OK);
                 finish();
                 break;
         }
@@ -147,7 +182,7 @@ public class CourseActivity extends BasicActivity {
         String cTime = "";
         for (String week : ConstantUtil.WEEKS) {
             List<Integer> sectionName = new ArrayList<>();
-            for (Map.Entry<Long, ClassTimeDB> dbEntry : selectMap.entrySet()) {
+            for (Map.Entry<Integer, ClassTimeDB> dbEntry : selectMap.entrySet()) {
                 if (week.equals(dbEntry.getValue().getWeekDay())) {
                     sectionName.add(Integer.valueOf(dbEntry.getValue().getSectionName()));
                 }

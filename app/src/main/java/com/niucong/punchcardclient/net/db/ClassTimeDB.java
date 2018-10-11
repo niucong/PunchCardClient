@@ -10,18 +10,18 @@ import org.litepal.crud.LitePalSupport;
  */
 public class ClassTimeDB extends LitePalSupport implements Parcelable {
 
-    private long id;// 唯一主键
+    private int id;// 唯一主键
 
     private String weekDay;// 周几
     private String sectionName;// 节次名称
 
     private long courseId;// 课程ID
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -56,7 +56,7 @@ public class ClassTimeDB extends LitePalSupport implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(this.id);
+        dest.writeInt(this.id);
         dest.writeString(this.weekDay);
         dest.writeString(this.sectionName);
         dest.writeLong(this.courseId);
@@ -66,7 +66,7 @@ public class ClassTimeDB extends LitePalSupport implements Parcelable {
     }
 
     protected ClassTimeDB(Parcel in) {
-        this.id = in.readLong();
+        this.id = in.readInt();
         this.weekDay = in.readString();
         this.sectionName = in.readString();
         this.courseId = in.readLong();

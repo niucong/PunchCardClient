@@ -4,6 +4,7 @@ import android.app.Application;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.facebook.stetho.Stetho;
 import com.niucong.punchcardclient.util.SharedPrefUtil;
 
 import org.litepal.LitePal;
@@ -27,6 +28,7 @@ public class App extends Application {
         app = this;
         sp = new SharedPrefUtil(app, "PunchCard");
         LitePal.initialize(this);
+        Stetho.initializeWithDefaults(this);
 
         //TODO 集成：1.4、初始化数据服务SDK、初始化设备信息并启动推送服务
 // 初始化BmobSDK

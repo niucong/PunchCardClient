@@ -10,13 +10,13 @@ import java.util.Map;
 
 public class ParcelableMap implements Parcelable {
 
-    private Map<Long, ClassTimeDB> map;
+    private Map<Integer, ClassTimeDB> map;
 
-    public Map<Long, ClassTimeDB> getMap() {
+    public Map<Integer, ClassTimeDB> getMap() {
         return map;
     }
 
-    public void setMap(Map<Long, ClassTimeDB> map) {
+    public void setMap(Map<Integer, ClassTimeDB> map) {
         this.map = map;
     }
 
@@ -28,7 +28,7 @@ public class ParcelableMap implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.map.size());
-        for (Map.Entry<Long, ClassTimeDB> entry : this.map.entrySet()) {
+        for (Map.Entry<Integer, ClassTimeDB> entry : this.map.entrySet()) {
             dest.writeValue(entry.getKey());
             dest.writeParcelable(entry.getValue(), flags);
         }
@@ -39,9 +39,9 @@ public class ParcelableMap implements Parcelable {
 
     protected ParcelableMap(Parcel in) {
         int mapSize = in.readInt();
-        this.map = new HashMap<Long, ClassTimeDB>(mapSize);
+        this.map = new HashMap<Integer, ClassTimeDB>(mapSize);
         for (int i = 0; i < mapSize; i++) {
-            Long key = (Long) in.readValue(Long.class.getClassLoader());
+            Integer key = (Integer) in.readValue(Integer.class.getClassLoader());
             ClassTimeDB value = in.readParcelable(ClassTimeDB.class.getClassLoader());
             this.map.put(key, value);
         }

@@ -69,6 +69,7 @@ dependencies {
     implementation 'com.github.huangyanbin:SmartTable:2.2.0'
 
     implementation 'org.litepal.android:core:2.0.0'
+    implementation 'com.facebook.stetho:stetho:1.5.0'
 
     configurations {
 //        all*.exclude group: 'com.google.code.gson', module: 'gson'
