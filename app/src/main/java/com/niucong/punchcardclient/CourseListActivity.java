@@ -156,6 +156,9 @@ public class CourseListActivity extends BasicActivity {
             if (!TextUtils.isEmpty(courseDB.getTeacherName())) {
                 monday += "\n@" + courseDB.getTeacherName();
             }
+            if (!TextUtils.isEmpty(courseDB.getRemark())) {
+                monday += "\n@" + courseDB.getRemark();
+            }
         }
         return monday;
     }

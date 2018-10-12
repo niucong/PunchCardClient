@@ -17,7 +17,7 @@ public class CourseDB extends LitePalSupport implements Parcelable {
     private String teacherName;// 老师名称
     private String roomName;// 上课地点
 
-    private long[] classTimeDBs;// 上课时间
+    private String remark;// 备注
 
     public long getId() {
         return id;
@@ -55,16 +55,16 @@ public class CourseDB extends LitePalSupport implements Parcelable {
         return roomName;
     }
 
-    public long[] getClassTimeDBs() {
-        return classTimeDBs;
-    }
-
-    public void setClassTimeDBs(long[] classTimeDBs) {
-        this.classTimeDBs = classTimeDBs;
-    }
-
     public void setRoomName(String roomName) {
         this.roomName = roomName;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     @Override
@@ -79,7 +79,7 @@ public class CourseDB extends LitePalSupport implements Parcelable {
         dest.writeString(this.courseName);
         dest.writeString(this.teacherName);
         dest.writeString(this.roomName);
-        dest.writeLongArray(this.classTimeDBs);
+        dest.writeString(this.remark);
     }
 
     public CourseDB() {
@@ -91,7 +91,7 @@ public class CourseDB extends LitePalSupport implements Parcelable {
         this.courseName = in.readString();
         this.teacherName = in.readString();
         this.roomName = in.readString();
-        this.classTimeDBs = in.createLongArray();
+        this.remark = in.readString();
     }
 
     public static final Creator<CourseDB> CREATOR = new Creator<CourseDB>() {

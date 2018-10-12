@@ -41,6 +41,8 @@ public class CourseActivity extends BasicActivity {
     EditText courseRoom;
     @BindView(R.id.course_time)
     TextView courseTime;
+    @BindView(R.id.course_remark)
+    EditText courseRemark;
     @BindView(R.id.course_delete)
     Button courseDelete;
     @BindView(R.id.course_button)
@@ -67,6 +69,7 @@ public class CourseActivity extends BasicActivity {
             courseName.setText(courseDB.getCourseName());
             courseTeacher.setText(courseDB.getTeacherName());
             courseRoom.setText(courseDB.getRoomName());
+            courseRemark.setText(courseDB.getRemark());
 
             selectMap = new HashMap<>();
             List<ClassTimeDB> timeDBS = LitePal.where("courseId = ?", "" + courseDB.getId()).find(ClassTimeDB.class);
@@ -134,8 +137,6 @@ public class CourseActivity extends BasicActivity {
                 break;
             case R.id.course_button:
                 String courseNameStr = courseName.getText().toString();
-                String courseTeacherStr = courseTeacher.getText().toString();
-                String courseRoomStr = courseRoom.getText().toString();
                 if (TextUtils.isEmpty(courseNameStr)) {
                     App.showToast("课程名称不能为空");
                     return;
@@ -148,8 +149,9 @@ public class CourseActivity extends BasicActivity {
                     courseDB = new CourseDB();
                 }
                 courseDB.setCourseName(courseNameStr);
-                courseDB.setTeacherName(courseTeacherStr);
-                courseDB.setRoomName(courseRoomStr);
+                courseDB.setTeacherName(courseTeacher.getText().toString());
+                courseDB.setRoomName(courseRoom.getText().toString());
+                courseDB.setRemark(courseRemark.getText().toString());
 
                 if (courseDB.getId() == 0) {
                     courseDB.save();
@@ -203,6 +205,9 @@ public class CourseActivity extends BasicActivity {
                 cTime = cTime.substring(0, cTime.length() - 1);
                 cTime += "\n";
             }
+        }
+        if (!TextUtils.isEmpty(cTime)) {
+            cTime = cTime.substring(0, cTime.length() - 1);
         }
         courseTime.setText(cTime);
     }
