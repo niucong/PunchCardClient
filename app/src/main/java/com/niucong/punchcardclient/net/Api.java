@@ -6,6 +6,7 @@ import com.niucong.punchcardclient.net.bean.CourseListBean;
 import com.niucong.punchcardclient.net.bean.LoginBean;
 import com.niucong.punchcardclient.net.bean.MemberListBean;
 import com.niucong.punchcardclient.net.bean.PlanListBean;
+import com.niucong.punchcardclient.net.bean.ProjectListBean;
 import com.niucong.punchcardclient.net.bean.ScheduleListBean;
 import com.niucong.punchcardclient.net.bean.SignBean;
 import com.niucong.punchcardclient.net.bean.SignListBean;
@@ -56,7 +57,7 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("projectList")
-    Observable<PlanListBean> projectList(@FieldMap Map<String, String> fields);
+    Observable<ProjectListBean> projectList(@FieldMap Map<String, String> fields);
 
     @FormUrlEncoded
     @POST("courseList")

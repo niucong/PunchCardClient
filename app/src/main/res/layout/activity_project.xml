@@ -118,15 +118,6 @@
                 android:textSize="18dp"/>
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/project_edit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="取消/终止时间"
-            android:paddingBottom="10dp"
-            android:visibility="gone"
-            android:textSize="18dp"/>
-
         <LinearLayout
             android:id="@+id/project_status_ll"
             android:layout_width="match_parent"
@@ -148,7 +139,52 @@
                 android:layout_height="wrap_content"
                 android:text="未开始"
                 android:textSize="18dp"/>
+
+            <RadioGroup
+                android:id="@+id/project_status_rg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/project_status1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="同意"
+                    android:textSize="18dp"/>
+
+                <RadioButton
+                    android:id="@+id/project_status2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="不同意"
+                    android:textSize="18dp"/>
+            </RadioGroup>
         </LinearLayout>
+
+        <EditText
+            android:id="@+id/project_status_cause"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:hint="拒绝原因"
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            android:maxLength="50"
+            android:textSize="18dp"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/project_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="取消/终止时间"
+            android:paddingBottom="10dp"
+            android:visibility="gone"
+            android:textSize="18dp"/>
 
         <CheckBox
             android:id="@+id/project_isfinish"
@@ -194,6 +230,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="@{handlers::onClickName}"
+            android:layout_marginTop="10dp"
             android:text="提交"
             android:textSize="18dp"/>
     </LinearLayout>

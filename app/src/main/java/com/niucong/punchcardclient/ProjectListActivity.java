@@ -11,30 +11,23 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.niucong.punchcardclient.adapter.PlanAdapter;
+import com.niucong.punchcardclient.adapter.ProjectAdapter;
 import com.niucong.punchcardclient.app.App;
 import com.niucong.punchcardclient.net.ApiCallback;
 import com.niucong.punchcardclient.net.bean.BasicBean;
-import com.niucong.punchcardclient.net.bean.PlanListBean;
-import com.niucong.punchcardclient.net.db.PlanDB;
-import com.niucong.selectdatetime.view.NiftyDialogBuilder;
-import com.niucong.selectdatetime.view.wheel.DateSelectView;
+import com.niucong.punchcardclient.net.bean.ProjectListBean;
+import com.niucong.punchcardclient.net.db.ProjectDB;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,8 +44,8 @@ public class ProjectListActivity extends BasicActivity implements BaseQuickAdapt
     @BindView(R.id.plan_srl)
     SwipeRefreshLayout planSrl;
 
-    private PlanAdapter adapter;
-    private List<PlanDB> list = new ArrayList<>();
+    private ProjectAdapter adapter;
+    private List<ProjectDB> list = new ArrayList<>();
 
     private int allSize;
     private int offset = 0;
@@ -111,7 +104,7 @@ public class ProjectListActivity extends BasicActivity implements BaseQuickAdapt
     private void setAdapter() {
         planSrl.setOnRefreshListener(this);
         planSrl.setColorSchemeColors(Color.rgb(47, 223, 189));
-        adapter = new PlanAdapter(this, R.layout.item_plan, list);
+        adapter = new ProjectAdapter(this, R.layout.item_project, list);
         adapter.setOnLoadMoreListener(this, planRv);
         planRv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         planRv.setAdapter(adapter);
@@ -124,14 +117,10 @@ public class ProjectListActivity extends BasicActivity implements BaseQuickAdapt
         if (!TextUtils.isEmpty(searchKey)) {
             fields.put("searchKey", searchKey);
         }
-        if (startDate != null && endDate != null) {
-            fields.put("startTime", startDate.getTime() + "");
-            fields.put("endTime", endDate.getTime() + 24 * 60 * 60 * 1000 + "");
-        }
         Log.d("PlanListActivity", "fields=" + fields.toString());
-        addSubscription(getApi().planList(fields), new ApiCallback<PlanListBean>() {
+        addSubscription(getApi().projectList(fields), new ApiCallback<ProjectListBean>() {
             @Override
-            public void onSuccess(PlanListBean model) {
+            public void onSuccess(ProjectListBean model) {
                 if (model != null) {
                     if (model.getCode() == 1) {
                         if (offset == 0) {
@@ -177,8 +166,6 @@ public class ProjectListActivity extends BasicActivity implements BaseQuickAdapt
     public void onRefresh() {
         adapter.setEnableLoadMore(false);
         offset = 0;
-        startDate = null;
-        endDate = null;
         queryMembers();
     }
 
@@ -201,7 +188,7 @@ public class ProjectListActivity extends BasicActivity implements BaseQuickAdapt
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        this.getMenuInflater().inflate(R.menu.menu_vacate, menu);
+        this.getMenuInflater().inflate(R.menu.menu_project, menu);
         return true;
     }
 
@@ -215,65 +202,8 @@ public class ProjectListActivity extends BasicActivity implements BaseQuickAdapt
             case R.id.action_add:
                 startActivityForResult(new Intent(ProjectListActivity.this, ProjectActivity.class), 1);
                 break;
-            case R.id.action_date:
-                showSubmitDia();
-                break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private Date startDate, endDate;
-
-    /**
-     * 选择日期对话框
-     */
-    private void showSubmitDia() {
-        final NiftyDialogBuilder submitDia = NiftyDialogBuilder.getInstance(this);
-        View selectDateView = LayoutInflater.from(this).inflate(R.layout.dialog_select_date, null);
-        final DateSelectView ds = (DateSelectView) selectDateView.findViewById(R.id.date_start);
-        final DateSelectView de = (DateSelectView) selectDateView.findViewById(R.id.date_end);
-
-        final SimpleDateFormat YMD = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            startDate = YMD.parse(YMD.format(new Date()));// 当日00：00：00
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        endDate = new Date();
-
-        submitDia.withTitle("选择查询日期");
-        submitDia.withButton1Text("取消", 0).setButton1Click(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                submitDia.dismiss();
-            }
-        });
-        submitDia.withButton2Text("确定", 0).setButton2Click(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    startDate = YMD.parse(ds.getDate());
-//                    if (ymd.format(new Date()).equals(de.getDate())) {// 结束日期是今天
-//                        endDate = new Date();// 当前时间
-//                    } else {
-//                        endDate = new Date(ymd.parse(de.getDate()).getTime() + 1000 * 60 * 60 * 24 - 1);// 当日23：59：59
-//                    }
-                    endDate = YMD.parse(de.getDate());
-                    if (endDate.before(startDate)) {
-                        App.showToast("开始日期不能大于结束日期");
-                    } else {
-                        queryMembers();
-                        submitDia.dismiss();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        submitDia.setCustomView(selectDateView, this);// "请选择查询日期"
-        submitDia.withMessage(null).withDuration(400);
-        submitDia.isCancelable(false);
-        submitDia.show();
     }
 
 }

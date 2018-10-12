@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -57,6 +58,9 @@ public class ProjectActivity extends BasicActivity {
             binding.projectCreator.setText("创建者：" + db.getCreatorName());
             binding.projectCreate.setVisibility(View.VISIBLE);
             binding.projectCreate.setText("创建时间：" + ConstantUtil.YMDHM.format(new Date(db.getCreateTime())));
+            if (!TextUtils.isEmpty(db.getRemark())) {
+                binding.projectRemarkTv.setText("备注：" + db.getRemark());
+            }
 
             String names = "";
             Log.d("PlanAdapter", "members=" + db.getMembers());
@@ -87,8 +91,35 @@ public class ProjectActivity extends BasicActivity {
 
             binding.projectStatusLl.setVisibility(View.VISIBLE);
             binding.projectButton.setVisibility(View.GONE);
-            if (db.getForceFinish() == 0) {
-                if (db.getStartTime() > System.currentTimeMillis()) {
+            if (db.getApproveResult() == 0) {
+                setTextStutas("待审批", Color.argb(168, 0, 0, 255));
+                binding.projectRemark.setVisibility(View.GONE);
+                if (App.sp.getInt("userId", 0) == db.getSuperId()) {
+                    binding.projectStatus.setVisibility(View.GONE);
+                    binding.projectStatusRg.setVisibility(View.VISIBLE);
+                    binding.projectStatus2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            binding.projectStatusCause.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+                        }
+                    });
+                    binding.projectButton.setVisibility(View.VISIBLE);
+                } else if (App.sp.getInt("userId", 0) == db.getCreatorId()) {
+                    binding.projectIsfinish.setVisibility(View.VISIBLE);
+                    binding.projectIsfinish.setText("取消项目");
+                    binding.projectIsfinish.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            binding.projectIsfinishCause.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+                            binding.projectButton.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+                        }
+                    });
+                }
+            } else if (db.getApproveResult() == 2) {
+                setTextStutas("被拒绝", Color.argb(168, 255, 0, 255));
+            } else if (db.getForceFinish() == 0) {
+                int status = db.getStatus();
+                if (status == 0) {
                     setTextStutas("未开始", Color.argb(168, 0, 0, 255));
                     if (App.sp.getInt("userId", 0) == db.getCreatorId()) {
                         binding.projectIsfinish.setVisibility(View.VISIBLE);
@@ -96,8 +127,24 @@ public class ProjectActivity extends BasicActivity {
                         binding.projectIsfinishCause.setVisibility(View.VISIBLE);
                         binding.projectButton.setVisibility(View.VISIBLE);
                     }
-                } else if (db.getEndTime() > System.currentTimeMillis()) {
-                    setTextStutas("进行中", Color.argb(168, 0, 255, 0));
+                } else if (status == 1) {
+                    setTextStutas("设计中", Color.argb(168, 0, 255, 0));
+                    if (App.sp.getInt("userId", 0) == db.getCreatorId()) {
+                        binding.projectIsfinish.setVisibility(View.VISIBLE);
+                        binding.projectIsfinish.setText("终止项目");
+                        binding.projectIsfinishCause.setVisibility(View.VISIBLE);
+                        binding.projectButton.setVisibility(View.VISIBLE);
+                    }
+                } else if (status == 2) {
+                    setTextStutas("开发中", Color.argb(168, 0, 255, 0));
+                    if (App.sp.getInt("userId", 0) == db.getCreatorId()) {
+                        binding.projectIsfinish.setVisibility(View.VISIBLE);
+                        binding.projectIsfinish.setText("终止项目");
+                        binding.projectIsfinishCause.setVisibility(View.VISIBLE);
+                        binding.projectButton.setVisibility(View.VISIBLE);
+                    }
+                } else if (status == 3) {
+                    setTextStutas("测试中", Color.argb(168, 0, 255, 0));
                     if (App.sp.getInt("userId", 0) == db.getCreatorId()) {
                         binding.projectIsfinish.setVisibility(View.VISIBLE);
                         binding.projectIsfinish.setText("终止项目");

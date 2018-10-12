@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -94,16 +95,26 @@ public class PlanActivity extends BasicActivity {
                     if (App.sp.getInt("userId", 0) == db.getCreatorId()) {
                         binding.planIsfinish.setVisibility(View.VISIBLE);
                         binding.planIsfinish.setText("取消计划");
-                        binding.planIsfinishCause.setVisibility(View.VISIBLE);
-                        binding.planButton.setVisibility(View.VISIBLE);
+                        binding.planIsfinish.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                binding.planIsfinishCause.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+                                binding.planButton.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+                            }
+                        });
                     }
                 } else if (db.getEndTime() > System.currentTimeMillis()) {
                     setTextStutas("进行中", Color.argb(168, 0, 255, 0));
                     if (App.sp.getInt("userId", 0) == db.getCreatorId()) {
                         binding.planIsfinish.setVisibility(View.VISIBLE);
                         binding.planIsfinish.setText("终止计划");
-                        binding.planIsfinishCause.setVisibility(View.VISIBLE);
-                        binding.planButton.setVisibility(View.VISIBLE);
+                        binding.planIsfinish.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                binding.planIsfinishCause.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+                                binding.planButton.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+                            }
+                        });
                     }
                 } else {
                     setTextStutas("已结束", Color.argb(168, 0, 0, 0));
