@@ -46,7 +46,11 @@ public class ScheduleActivity extends BasicActivity {
         int screenWith = wm.getDefaultDisplay().getWidth();
         table.getConfig().setMinTableWidth(screenWith); //设置最小宽度 屏幕宽度
 
-        refreshScheduleList();
+        if (LitePal.count(ScheduleDB.class) == 0) {
+            App.showToast("请先刷新作息表");
+        } else {
+            refreshScheduleList();
+        }
     }
 
     private void refreshScheduleList() {

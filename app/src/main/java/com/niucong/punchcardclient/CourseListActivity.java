@@ -55,8 +55,12 @@ public class CourseListActivity extends BasicActivity {
      * 创建课程表
      */
     private void createCourses() {
-        final List<Course> courses = new ArrayList<>();
         final List<ScheduleDB> list = LitePal.findAll(ScheduleDB.class);
+        if (list.isEmpty()) {
+            App.showToast("请先刷新作息表");
+            finish();
+        }
+        final List<Course> courses = new ArrayList<>();
         for (ScheduleDB scheduleDB : list) {
             try {
                 String sectionName = scheduleDB.getSectionName();
@@ -118,7 +122,7 @@ public class CourseListActivity extends BasicActivity {
             public void onClick(Column<String> column, String value, String s, int position) {
                 Log.d("CourseActivity", "column=" + column.getColumnName());
                 Log.d("CourseActivity", "position=" + (position + 1));
-                App.showToast(value);
+//                App.showToast(value);
                 startActivityForResult(new Intent(CourseListActivity.this, CourseActivity.class)
                         .putExtra("courseDB", queryCourseDB(column.getColumnName(), (position + 1) + "")), 0);
             }

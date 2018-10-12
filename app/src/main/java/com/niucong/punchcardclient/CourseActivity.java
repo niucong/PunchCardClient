@@ -157,6 +157,13 @@ public class CourseActivity extends BasicActivity {
                 } else {
                     courseDB.update(courseDB.getId());
                     App.showToast("修改成功");
+
+                    List<ClassTimeDB> timeDBS = LitePal.where("courseId = ?", "" + courseDB.getId()).find(ClassTimeDB.class);
+                    for (ClassTimeDB timeDB : timeDBS) {
+                        ContentValues values = new ContentValues();
+                        values.put("courseId", "0");
+                        LitePal.update(ClassTimeDB.class, values, timeDB.getId());
+                    }
                 }
                 for (ClassTimeDB timeDB : selectMap.values()) {
                     timeDB.setCourseId(courseDB.getId());

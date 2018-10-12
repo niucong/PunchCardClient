@@ -40,7 +40,11 @@ public class CalendarActivity extends BasicActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        refreshCalendarList();
+        if (LitePal.count(CalendarDB.class) == 0) {
+            App.showToast("请先刷新校历");
+        } else {
+            refreshCalendarList();
+        }
     }
 
     private void refreshCalendarList() {
