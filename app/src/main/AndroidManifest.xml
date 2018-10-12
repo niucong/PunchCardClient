@@ -63,6 +63,12 @@
             android:name=".PlanActivity"
             android:label="计划详情"/>
         <activity
+            android:name=".ProjectListActivity"
+            android:label="项目列表"/>
+        <activity
+            android:name=".ProjectActivity"
+            android:label="项目详情"/>
+        <activity
             android:name=".ScheduleActivity"
             android:label="作息表"/>
         <activity

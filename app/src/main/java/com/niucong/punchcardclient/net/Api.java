@@ -51,6 +51,14 @@ public interface Api {
     Observable<PlanListBean> planList(@FieldMap Map<String, String> fields);
 
     @FormUrlEncoded
+    @POST("project")
+    Observable<BasicBean> project(@FieldMap Map<String, String> fields);
+
+    @FormUrlEncoded
+    @POST("projectList")
+    Observable<PlanListBean> projectList(@FieldMap Map<String, String> fields);
+
+    @FormUrlEncoded
     @POST("courseList")
     Observable<CourseListBean> courseList(@FieldMap Map<String, String> fields);
 

@@ -10,7 +10,7 @@ public class Calendar {
     private String session;
     @SmartColumn(id = 2, name = "周数", autoMerge = true, fixed = true)
     private String weekly;
-    @SmartColumn(id = 3, name = "月份", autoMerge = true)
+    @SmartColumn(id = 3, name = "月份", autoMerge = true, fixed = true)
     private String month;
     @SmartColumn(id = 4, name = "一")
     private String monday;
