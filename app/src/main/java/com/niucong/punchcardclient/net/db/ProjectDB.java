@@ -31,7 +31,7 @@ public class ProjectDB implements Parcelable {
     private long startTimeReal;// 项目实际开始(设计)时间
     private long startTimeDevelop;// 项目研发开始时间
     private long startTimeTest;// 项目测试开始时间
-    private long endTimeReal;// 项目实际开始时间
+    private long endTimeReal;// 项目实际完成时间
 
     public int getId() {
         return id;

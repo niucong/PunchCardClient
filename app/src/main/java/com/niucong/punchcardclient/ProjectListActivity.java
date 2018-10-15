@@ -64,6 +64,7 @@ public class ProjectListActivity extends BasicActivity implements BaseQuickAdapt
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+        planSearch.setHint("项目名称");
         planSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

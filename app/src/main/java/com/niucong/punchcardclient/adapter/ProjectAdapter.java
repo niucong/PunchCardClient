@@ -60,7 +60,11 @@ public class ProjectAdapter extends BaseQuickAdapter<ProjectDB, BaseViewHolder> 
         }
 
         if (db.getApproveResult() == 0) {
-            setTextStutas(helper, "待批复", Color.argb(168, 0, 0, 255));
+            if (db.getForceFinish() == 1) {
+                setTextStutas(helper, "已取消", Color.argb(168, 255, 0, 0));
+            } else {
+                setTextStutas(helper, "待批复", Color.argb(168, 0, 0, 255));
+            }
         } else if (db.getApproveResult() == 1) {
             if (db.getForceFinish() == 0) {
                 if (db.getStatus() == 0) {

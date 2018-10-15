@@ -43,7 +43,8 @@
         </activity>
         <activity
             android:name=".SignListActivity"
-            android:label="考勤管理"/>
+            android:label="考勤管理"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".MemberListActivity"
             android:label="人员管理"/>
@@ -52,22 +53,28 @@
             android:label="人员管理"/>
         <activity
             android:name=".VacateListActivity"
-            android:label="查看假条"/>
+            android:label="查看假条"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".VacateActivity"
-            android:label="查看假条"/>
+            android:label="查看假条"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".PlanListActivity"
-            android:label="计划列表"/>
+            android:label="计划列表"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".PlanActivity"
-            android:label="计划详情"/>
+            android:label="计划详情"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".ProjectListActivity"
-            android:label="项目列表"/>
+            android:label="项目列表"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".ProjectActivity"
-            android:label="项目详情"/>
+            android:label="项目详情"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".ScheduleActivity"
             android:label="作息表"/>
