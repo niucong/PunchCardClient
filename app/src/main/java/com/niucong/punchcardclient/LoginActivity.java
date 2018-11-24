@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 import com.niucong.punchcardclient.app.App;
 import com.niucong.punchcardclient.net.ApiCallback;
-import com.niucong.punchcardclient.net.bean.LoginBean;
+import com.niucong.punchcardclient.net.bean.BasicBean;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -123,23 +123,54 @@ public class LoginActivity extends BasicActivity {
         // perform the user login attempt.
         showProgress(true);
         Map<String, String> fields = new HashMap<>();
-        fields.put("username", email);
-        fields.put("password", password);
-        fields.put("bmobID", App.sp.getString("bmobID", ""));
-        addSubscription(getApi().login(fields), new ApiCallback<LoginBean>() {
+//        fields.put("username", email);
+//        fields.put("password", password);
+//        fields.put("bmobID", App.sp.getString("bmobID", ""));
+//        addSubscription(getApi().login(fields), new ApiCallback<LoginBean>() {
+//            @Override
+//            public void onSuccess(LoginBean model) {
+//                showProgress(false);
+//                if (model != null) {
+//                    App.showToast("" + model.getMsg());
+//                    if (model.getCode() == 1) {
+//                        Log.d("LoginActivity", "userId=" + model.getMemberId());
+//                        App.sp.putInt("userId", model.getMemberId());
+//                        App.sp.putInt("type", model.getType());
+//                        App.sp.commit();
+//                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+//                        finish();
+//                    }
+//                } else {
+//                    App.showToast("接口错误" + (model == null));
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(String msg) {
+//                Log.d("LoginActivity", "失败了,如下 : " + msg);
+//            }
+//
+//            @Override
+//            public void onFinish() {
+//                showProgress(false);
+//            }
+//        });
+
+        fields.put("primary_barcode", "2000300000012");
+        addSubscription(getApi().sku(fields), new ApiCallback<BasicBean>() {
             @Override
-            public void onSuccess(LoginBean model) {
+            public void onSuccess(BasicBean model) {
                 showProgress(false);
                 if (model != null) {
                     App.showToast("" + model.getMsg());
-                    if (model.getCode() == 1) {
-                        Log.d("LoginActivity", "userId=" + model.getMemberId());
-                        App.sp.putInt("userId", model.getMemberId());
-                        App.sp.putInt("type", model.getType());
-                        App.sp.commit();
-                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                        finish();
-                    }
+//                    if (model.getCode() == 1) {
+//                        Log.d("LoginActivity", "userId=" + model.getMemberId());
+//                        App.sp.putInt("userId", model.getMemberId());
+//                        App.sp.putInt("type", model.getType());
+//                        App.sp.commit();
+//                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+//                        finish();
+//                    }
                 } else {
                     App.showToast("接口错误" + (model == null));
                 }

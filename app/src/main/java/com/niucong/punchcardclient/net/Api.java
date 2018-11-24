@@ -25,6 +25,10 @@ public interface Api {
     @POST("login")
     Observable<LoginBean> login(@FieldMap Map<String, String> fields);
 
+    @FormUrlEncoded
+    @POST("sku")
+    Observable<BasicBean> sku(@FieldMap Map<String, String> fields);
+
     @POST("memberList")
     Observable<MemberListBean> memberList();
 
