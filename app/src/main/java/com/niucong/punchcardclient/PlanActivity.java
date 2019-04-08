@@ -73,7 +73,7 @@ public class PlanActivity extends BasicActivity {
             Log.d("PlanAdapter", "names=" + names);
             if (names.length() > 0) {
                 names = names.substring(1);
-                binding.planMembers.setText("关联人员：" + names);
+                binding.planMembers.setText(names);
                 binding.planMembersLl.setVisibility(View.VISIBLE);
             } else {
                 binding.planMembersLl.setVisibility(View.GONE);

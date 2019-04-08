@@ -42,7 +42,7 @@ public class VacateAdapter extends BaseQuickAdapter<VacateDB, BaseViewHolder> {
         helper.setText(R.id.item_vacate_starttime, "起：" + ConstantUtil.YMDHM.format(new Date(db.getStartTime())));
         helper.setText(R.id.item_vacate_endtime, "止：" + ConstantUtil.YMDHM.format(new Date(db.getEndTime())));
         helper.setText(R.id.item_vacate_creattime, "提交时间：" + ConstantUtil.YMDHM.format(new Date(db.getCreateTime())));
-        if (db.getEditTime() > 0) {
+        if (db.getEditTime() > 0 && db.getEditTime() > db.getCreateTime()) {
             helper.setText(R.id.item_vacate_edittime, "批复时间：" + ConstantUtil.YMDHM.format(new Date(db.getEditTime())));
             helper.setGone(R.id.item_vacate_edittime, true);
         } else {
