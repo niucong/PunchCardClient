@@ -10,6 +10,9 @@
 
     <!--TODO 集成：1.1、添加数据SDK和推送SDK需要的权限-->
     <!--比目数据SDK所需的权限-->
+
+    <!--TODO 集成：1.1、添加数据SDK和推送SDK需要的权限-->
+    <!--比目数据SDK所需的权限-->
     <!--获取GSM（2g）、WCDMA（联通3g）等网络状态的信息  -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <!--保持CPU 运转，屏幕和键盘灯有可能是关闭的,用于文件上传和下载 -->
