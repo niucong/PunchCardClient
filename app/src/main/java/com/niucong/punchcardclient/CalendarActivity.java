@@ -23,6 +23,9 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * 校历
+ */
 public class CalendarActivity extends BasicActivity {
 
     @BindView(R.id.schedule_table)

@@ -25,6 +25,9 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * 作息表
+ */
 public class ScheduleActivity extends BasicActivity {
 
     @BindView(R.id.schedule_table)

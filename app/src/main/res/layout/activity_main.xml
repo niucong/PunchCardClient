@@ -122,10 +122,10 @@
                 android:layout_height="100dp"
                 android:layout_marginLeft="10dp"
                 android:onClick="@{handlers::onClickName}"
-                android:text="人员管理"
+                android:text="日历测试"
+                android:visibility="invisible"
                 android:textSize="18dp"
-                android:textStyle="bold"
-                android:visibility="invisible"/>
+                android:textStyle="bold" />
         </LinearLayout>
 
         <View

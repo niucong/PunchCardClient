@@ -13,6 +13,7 @@ import com.niucong.punchcardclient.databinding.ActivityMainBinding;
 import com.niucong.punchcardclient.net.ApiCallback;
 import com.niucong.punchcardclient.net.bean.BasicBean;
 import com.niucong.punchcardclient.net.bean.SignBean;
+import com.niucong.punchcardclient.util.CalendarReminderUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -140,7 +141,9 @@ public class MainActivity extends BasicActivity {
                     startActivity(new Intent(MainActivity.this, ProjectListActivity.class));
                     break;
                 case R.id.main_member:
-                    startActivity(new Intent(MainActivity.this, MemberListActivity.class));
+//                    startActivity(new Intent(MainActivity.this, MemberListActivity.class));
+                    CalendarReminderUtils.addCalendarEvent(MainActivity.this, "标题title", "内容description",
+                            System.currentTimeMillis() + 5 * 60 * 1000 + 24 * 60 * 60 * 1000, 1);
                     break;
                 case R.id.main_attendance:
                     startActivity(new Intent(MainActivity.this, SignListActivity.class));

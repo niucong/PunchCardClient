@@ -23,6 +23,7 @@ import com.niucong.punchcardclient.net.bean.BasicBean;
 import com.niucong.punchcardclient.net.bean.MemberListBean;
 import com.niucong.punchcardclient.net.db.MemberDB;
 import com.niucong.punchcardclient.net.db.PlanDB;
+import com.niucong.punchcardclient.util.CalendarReminderUtils;
 import com.niucong.punchcardclient.util.ConstantUtil;
 
 import java.text.ParseException;
@@ -53,7 +54,6 @@ public class PlanActivity extends BasicActivity {
         if (db == null) {
             actionBar.setTitle("新建计划");
         } else {
-
             binding.planName.setText(db.getName());
             binding.planCreator.setVisibility(View.VISIBLE);
             binding.planCreator.setText("创建者：" + db.getCreatorName());
@@ -253,7 +253,10 @@ public class PlanActivity extends BasicActivity {
                 final long startDate = ConstantUtil.YMDHM.parse(start).getTime();
                 final long endDate = ConstantUtil.YMDHM.parse(end).getTime();
                 if (startDate != 0 && endDate != 0) {
-                    if (startDate > endDate) {
+                    if (startDate < System.currentTimeMillis()) {
+                        App.showToast("开始时间不能早于当前时间");
+                        return;
+                    } else if (startDate > endDate) {
                         App.showToast("开始时间不能晚于结束时间");
                         return;
                     } else if (startDate == endDate) {
@@ -276,6 +279,8 @@ public class PlanActivity extends BasicActivity {
                         }
                     }
                     fields.put("members", array.toJSONString());
+
+                    CalendarReminderUtils.addCalendarEvent(PlanActivity.this, name, "", startDate, endDate, 10);
                 }
             } catch (ParseException e) {
                 e.printStackTrace();

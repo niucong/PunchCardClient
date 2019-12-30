@@ -1,11 +1,17 @@
 package com.niucong.punchcardclient;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -16,6 +22,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.niucong.punchcardclient.app.App;
 import com.niucong.punchcardclient.net.ApiCallback;
@@ -76,6 +83,46 @@ public class LoginActivity extends BasicActivity {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
         }
+
+        if (!setPermission(this, this, new String[]{
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.READ_CALENDAR,
+                Manifest.permission.WRITE_CALENDAR}, 1)) {
+        }
+    }
+
+    /**
+     * Activity 6.0运行权限设置
+     *
+     * @param context
+     * @param activity
+     * @param permissions 权限  Manifest.permission.
+     * @param type
+     */
+    public static boolean setPermission(Context context, Activity activity, String[] permissions,
+                                        int type) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(context, permissions[0]) != PackageManager
+                    .PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(activity, permissions, type);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[]
+            grantResults) {
+        if (requestCode == 1) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            } else {
+                Toast.makeText(this, "权限被拒绝,无法使用此应用", Toast.LENGTH_LONG).show();
+                finish();
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
 
