@@ -7,6 +7,7 @@ import com.niucong.punchcardclient.app.App;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Headers;
 import okhttp3.Interceptor;
@@ -15,8 +16,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.fastjson.FastJsonConverterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  *
@@ -59,47 +60,26 @@ public class ApiClient {
     public Retrofit retrofit(String baseUrl) {
 //        if (mRetrofit == null) {
         OkHttpClient okHttpClient = getOKHttpClient(null);
+        Log.e("ApiClient", "baseUrl=" + baseUrl);
         mRetrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
-//                .addConverterFactory(GsonConverterFactory.create())
-                .addConverterFactory(FastJsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();
 //        }
         return mRetrofit;
     }
 
-    /**
-     * 一个 BaseUrl 对应一个此方法 ,
-     * 在 BasePresent 中的 attachView 方法中初始化
-     * 在 BaseActivity 中添加一个初始化 Apixx.class 的方法
-     *
-     * @return
-     */
-    public Retrofit retrofit(String baseUrl, Map<String, String> params) {
-//        if (mRetrofit == null) {
-        OkHttpClient okHttpClient = getOKHttpClient(params);
-        mRetrofit = new Retrofit.Builder()
-                .baseUrl(baseUrl)
-//                .addConverterFactory(GsonConverterFactory.create())
-                .addConverterFactory(FastJsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .client(okHttpClient)
-                .build();
-//        }
-        return mRetrofit;
-    }
-
-    /**
-     * 创建 OKHttp 实例
-     * TODO 添加请求头等参数
-     *
-     * @return
-     */
-
-    private static OkHttpClient getOKHttpClient(Map<String, String> params) {
+    private OkHttpClient getOKHttpClient(Map<String, String> params) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder.connectTimeout(20, TimeUnit.SECONDS);//设置超时时间 单位是秒
+        builder.readTimeout(60, TimeUnit.SECONDS);//设置读取超时时间 单位是秒
+        builder.writeTimeout(60, TimeUnit.SECONDS);//设置写入超时时间 单位是秒
+//        //设置禁止Fillder,charls代理抓包
+//        if (!BuildConfig.isDebug){
+//            builder.proxy(Proxy.NO_PROXY);
+//        }
 
         // Log信息拦截器
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
@@ -109,11 +89,11 @@ public class ApiClient {
             }
         });
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        //设置 Debug Log 模式
+        builder.addInterceptor(new NetworkInterceptor(params));
         builder.addInterceptor(loggingInterceptor);
-        builder.addNetworkInterceptor(new NetworkInterceptor(params));
-        OkHttpClient okHttpClient = builder.build();
-        return okHttpClient;
+
+        OkHttpClient mOkHttpClient = builder.build();
+        return mOkHttpClient;
     }
 
     public static class NetworkInterceptor implements Interceptor {

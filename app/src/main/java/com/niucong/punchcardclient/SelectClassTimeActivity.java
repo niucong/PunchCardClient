@@ -3,7 +3,6 @@ package com.niucong.punchcardclient;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +20,7 @@ import org.litepal.LitePal;
 import java.util.List;
 import java.util.Map;
 
+import androidx.appcompat.app.ActionBar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;

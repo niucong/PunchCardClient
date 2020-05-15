@@ -3,13 +3,13 @@ package com.niucong.punchcardclient.net;
 
 import java.net.SocketTimeoutException;
 
-import retrofit2.adapter.rxjava.HttpException;
-import rx.Subscriber;
+import io.reactivex.observers.ResourceObserver;
+import retrofit2.HttpException;
 
 /**
  *
  */
-abstract public class ApiCallback<M> extends Subscriber<M> {
+abstract public class ApiCallback<M> extends ResourceObserver<M> {
 
     public abstract void onSuccess(M model);
 
@@ -48,7 +48,7 @@ abstract public class ApiCallback<M> extends Subscriber<M> {
     }
 
     @Override
-    public void onCompleted() {
+    public void onComplete() {
         onFinish();
     }
 }

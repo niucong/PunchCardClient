@@ -1,8 +1,6 @@
 package com.niucong.punchcardclient;
 
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +14,9 @@ import com.niucong.punchcardclient.databinding.ActivityMemberBinding;
 import com.niucong.punchcardclient.net.db.MemberDB;
 
 import java.util.List;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.databinding.DataBindingUtil;
 
 public class MemberActivity extends BasicActivity {
 

@@ -1,22 +1,22 @@
 package com.niucong.punchcardclient;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 
 import com.niucong.punchcardclient.app.App;
 import com.niucong.punchcardclient.net.Api;
 import com.niucong.punchcardclient.net.ApiClient;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-import rx.subscriptions.CompositeSubscription;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.ResourceObserver;
+import io.reactivex.schedulers.Schedulers;
 
 public class BasicActivity extends AppCompatActivity {
 
-    private CompositeSubscription mCompositeSubscription;
+    private CompositeDisposable mCompositeDisposable;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,13 +28,17 @@ public class BasicActivity extends AppCompatActivity {
         return ApiClient.getIstance().retrofit(App.sp.getString("url", "")).create(Api.class);
     }
 
-    public void addSubscription(Observable observable, Subscriber subscriber) {
-        if (mCompositeSubscription == null) {
-            mCompositeSubscription = new CompositeSubscription();
+    public void addSubscription(Observable observable, ResourceObserver subscriber) {
+        if (mCompositeDisposable == null) {
+            mCompositeDisposable = new CompositeDisposable();
         }
-        mCompositeSubscription.add(observable
-                .subscribeOn(Schedulers.io())
+        observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber));
+                .subscribe(subscriber);
+        mCompositeDisposable.add(subscriber);
+//        mCompositeSubscription.add(observable
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(subscriber));
     }
 }

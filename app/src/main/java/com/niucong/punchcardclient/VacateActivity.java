@@ -1,9 +1,7 @@
 package com.niucong.punchcardclient;
 
-import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
@@ -22,6 +20,9 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.databinding.DataBindingUtil;
 
 public class VacateActivity extends BasicActivity {
 

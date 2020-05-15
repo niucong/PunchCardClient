@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
@@ -20,6 +19,7 @@ import com.niucong.punchcardclient.net.bean.BasicBean;
 
 import org.greenrobot.eventbus.EventBus;
 
+import androidx.core.app.NotificationCompat;
 import cn.bmob.push.PushConstants;
 
 public class MyPushMessageReceiver extends BroadcastReceiver {

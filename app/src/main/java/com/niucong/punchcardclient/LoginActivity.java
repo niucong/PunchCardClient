@@ -10,8 +10,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -30,6 +28,9 @@ import com.niucong.punchcardclient.net.bean.LoginBean;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 /**
  * A login screen that offers login via email/password.
